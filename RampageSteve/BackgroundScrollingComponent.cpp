@@ -7,7 +7,7 @@ BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity, float
 
 	// The goal would be to eventually clone entity and have 2 of them
 	this->maxX = screenWidth;
-    
+    // test
 
 
 	// to create two new versions of entity we might need to use operator overloading
