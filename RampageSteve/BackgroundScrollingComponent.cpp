@@ -7,22 +7,6 @@ BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity, float
 
 	// The goal would be to eventually clone entity and have 2 of them
 	this->maxX = screenWidth;
-    // test
-
-
-	// to create two new versions of entity we might need to use operator overloading
-
-	// or create another sprite? Enity will contain a list of sprites? 
-    //this->childInstance = new Entity (*entity);
-    
-    //we need a copy consctructor
-    //memcpy(this->childInstance, entity, sizeof(entity));
-    
-    // Copy the value to a new pointer
-    this->childInstance = new Entity();
-    *this->childInstance = *entity;
-
-    
     
     
 
@@ -30,6 +14,21 @@ BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity, float
 
 bool BackgroundScrollingComponent::init()
 {
+    
+    // to create two new versions of entity we might need to use operator overloading
+
+    // or create another sprite? Enity will contain a list of sprites?
+    //this->childInstance = new Entity (*entity);
+    
+    //we need a copy consctructor
+    //memcpy(this->childInstance, entity, sizeof(entity));
+    
+    // Copy the value to a new pointer
+    this->childInstance = new Entity();
+    *this->childInstance = *this->thisEntity;
+
+    
+    
     
 	this->speed = -300;
     
@@ -84,4 +83,6 @@ void BackgroundScrollingComponent::updateRender(sf::RenderTarget* target)
 
 BackgroundScrollingComponent::~BackgroundScrollingComponent()
 {
+    if (this->childInstance != nullptr)
+        delete this->childInstance;
 }
