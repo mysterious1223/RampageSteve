@@ -10,7 +10,7 @@ BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity, float
     
 
     // We will create a collider component
-    
+    // this was added by macbook
 
 }
 
