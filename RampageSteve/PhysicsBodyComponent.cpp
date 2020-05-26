@@ -75,7 +75,7 @@ void PhysicsBodyComponent::updateRender(sf::RenderTarget* target)
 bool PhysicsBodyComponent::triggerJump()
 {
 
-	printf("Jump\n");
+	//printf("Jump\n");
 
 	this->vertical_velocity = this->jump_vel;
 	this->isGrounded = false;
