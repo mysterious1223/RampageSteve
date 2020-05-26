@@ -2,7 +2,7 @@
 
 PhysicsBodyComponent::PhysicsBodyComponent(Entity* entity) : Component (entity)
 {
-
+    //we need to add a collider component
 }
 
 bool PhysicsBodyComponent::init()
