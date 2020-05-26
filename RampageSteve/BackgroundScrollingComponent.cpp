@@ -8,6 +8,8 @@ BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity, float
 	// The goal would be to eventually clone entity and have 2 of them
 	this->maxX = screenWidth;
     
+
+    // We will create a collider component
     
 
 }
