@@ -4,7 +4,7 @@
 
 
 
-GameWorldState::GameWorldState(sf::Vector2f& viewSize, std::vector<ConfigurationData*> res) : GameState(viewSize, res) {
+GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(res) {
 
 	printf("[+] Game World State initialized\n");
 
@@ -29,7 +29,7 @@ GameWorldState::GameWorldState(sf::Vector2f& viewSize, std::vector<Configuration
                 background = new Entity (x);
                 //background->setPosition(1024, 768/2);
 				float i = 0;
-				BackgroundScrollingComponent* bck = new BackgroundScrollingComponent(background, viewSize.x);
+				BackgroundScrollingComponent* bck = new BackgroundScrollingComponent(background);
 
 				background->AddComponent(bck);
             }

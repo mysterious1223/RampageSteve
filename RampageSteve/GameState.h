@@ -7,7 +7,7 @@ class GameState {
 
 public:
 
-	GameState(sf::Vector2f& viewSize, std::vector<ConfigurationData*>);
+	GameState(std::vector<ConfigurationData*>);
 
     
 
@@ -28,7 +28,7 @@ public:
 
 
 
-	sf::Vector2f getScreenSize() { return this->screenSize; };
+
 
 	virtual ~GameState();
 protected:
@@ -39,7 +39,7 @@ private:
 	// stack of game states in this class probably only used in menus or maybe scene loading
 	std::stack <GameState*> states;
 
-	sf::Vector2f screenSize;
+
 	
 
 	// end state triggers a return value causing state to end

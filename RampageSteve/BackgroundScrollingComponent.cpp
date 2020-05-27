@@ -1,12 +1,12 @@
 #include "BackgroundScrollingComponent.h"
 
 
-BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity, float& screenWidth) : Component(entity)
+BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity) : Component(entity)
 {
 
 
 	// The goal would be to eventually clone entity and have 2 of them
-	this->maxX = screenWidth;
+	//this->maxX = screenWidth;
     
 
     // We will create a collider component
@@ -29,7 +29,9 @@ bool BackgroundScrollingComponent::init()
     this->childInstance = new Entity();
     *this->childInstance = *this->thisEntity;
 
+    //printf ("width %f", this->thisEntity->getLocalBounds().width);
     
+    this->maxX = this->thisEntity->getLocalBounds().width - 2;
     
     
 	this->speed = -300;
@@ -60,13 +62,13 @@ void BackgroundScrollingComponent::update(float& dt)
         
         
 		this->thisEntity->setPosition(this->maxX, 0);
-        printf ("swapping for parent %f\n", this->thisEntity->getPosition().x);
+        //printf ("swapping for parent %f\n", this->thisEntity->getPosition().x);
 	}
     
     if (this->childInstance->getPosition().x <= -this->maxX)
     {
         this->childInstance->setPosition(this->maxX, 0);
-        printf ("swapping for child %f\n", this->childInstance->getPosition().x);
+        //printf ("swapping for child %f\n", this->childInstance->getPosition().x);
     }
     
     

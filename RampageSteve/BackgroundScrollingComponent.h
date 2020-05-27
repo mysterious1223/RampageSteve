@@ -7,7 +7,7 @@ class Component;
 class BackgroundScrollingComponent : public Component
 {
 public:
-	BackgroundScrollingComponent(Entity*, float& screenWidth);
+	BackgroundScrollingComponent(Entity*);
 
 	bool init();
 

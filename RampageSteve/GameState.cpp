@@ -1,9 +1,9 @@
 #include "GameState.h"
 
-GameState::GameState(sf::Vector2f& viewSize, std::vector<ConfigurationData*> res)
+GameState::GameState(std::vector<ConfigurationData*> res)
 {
 
-	this->screenSize = viewSize;
+	
 
 	this->isEnd = false;
     
