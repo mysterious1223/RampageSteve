@@ -4,15 +4,17 @@
 #include "Globals.h"
 
 // Base class for all states
-class ConfigurationData;
+
 class Entity;
 class GameState;
 class GameWorldState : public GameState
 {
 public:
-	GameWorldState(sf::Vector2f&);
+    
+    
+	GameWorldState(sf::Vector2f&, std::vector<ConfigurationData*> res);
 
-
+    
 	// main state loop
 	bool update(float&);
 
@@ -27,7 +29,7 @@ private:
 	// temp
 	Entity* player = nullptr;
     Entity* background = nullptr;
-	std::vector<ConfigurationData*> gameResources;
+	//std::vector<ConfigurationData*> gameResources;
 
 	~GameWorldState();
 };

@@ -23,9 +23,9 @@ void Game::initStates()
 	// push our game into the stack
 
 	//GameWorldState* myState = new GameWorldState ();
+    std::vector<ConfigurationData*> resources = resourceLoader->loadEntityResourceConfig(pathToConfig);
 
-
-	this->states.push(new GameWorldState (this->viewSize));
+    this->states.push(new GameWorldState (this->viewSize, resources));
 	
 }
 

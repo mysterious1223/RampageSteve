@@ -4,23 +4,22 @@
 
 
 
-GameWorldState::GameWorldState(sf::Vector2f& viewSize) : GameState(viewSize) {
+GameWorldState::GameWorldState(sf::Vector2f& viewSize, std::vector<ConfigurationData*> res) : GameState(viewSize, res) {
 
 	printf("[+] Game World State initialized\n");
 
 
 
-	// load resources
-	gameResources = resourceLoader->loadEntityResourceConfig(pathToConfig);
+    
 	// We will prob have a player selection screen. We should create the functionality without implemenation. We can then use this array
 	// Game State can have player selection?
 
-	if (!gameResources.empty())
+	if (!this->gameResources.empty())
 	{
 		// Resources loaded we can now assign them game objects
 		// no character selectection as yet
 
-		for (auto& x : gameResources)
+		for (auto& x : this->gameResources)
 		{
             //1024, 768
             

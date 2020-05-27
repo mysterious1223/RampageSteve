@@ -2,13 +2,14 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 #include "Globals.h"
-
+class ConfigurationData;
 class GameState {
 
 public:
 
-	GameState(sf::Vector2f& viewSize);
+	GameState(sf::Vector2f& viewSize, std::vector<ConfigurationData*>);
 
+    
 
 
 	// main state loop
@@ -33,6 +34,7 @@ public:
 protected:
 	// isEnd
 	bool isEnd;
+    std::vector<ConfigurationData*> gameResources;
 private:
 	// stack of game states in this class probably only used in menus or maybe scene loading
 	std::stack <GameState*> states;
