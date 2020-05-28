@@ -51,9 +51,14 @@ public:
 
     const std::vector<Component*> getComponents ();
     
+    const std::string getName () {return this->name;};
+    
 private:
 
 	std::vector <Component*> entity_components;
+    
+    std::string name;
+    
 };
 
 #endif //ENTITY_H

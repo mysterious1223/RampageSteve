@@ -119,7 +119,18 @@ bool GameWorldState::update(float& dt)
                 
                 
                 //if contains collider we can perform physics actions
-                
+                for (auto& entity : *this->GameEntities)
+                {
+                    
+                    if (a != entity)
+                    {
+                        
+                        if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
+                        {
+                            printf ("Collision occured %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
+                        }
+                    }
+                }
                 
                 
                 

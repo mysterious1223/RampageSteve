@@ -2,6 +2,8 @@
 
 Entity::Entity(ConfigurationData* cf) : sf::Sprite (cf->getResources()->thisTexture)
 {
+    this->name = cf->getName();
+    
 	this->entity_components = std::vector <Component*>();
 }
 
