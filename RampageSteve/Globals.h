@@ -33,6 +33,7 @@
 #include "CharacterControllerComponent.h"
 #include "PhysicsBodyComponent.h"
 #include "BackgroundScrollingComponent.h"
+#include "ColliderComponent.h"
 #endif //  _COMPONENT_H_
 
 
