@@ -49,6 +49,8 @@ public:
 	bool DrawThis(sf::RenderTarget*);
   
 
+    const std::vector<Component*> getComponents ();
+    
 private:
 
 	std::vector <Component*> entity_components;

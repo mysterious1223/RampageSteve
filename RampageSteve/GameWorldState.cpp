@@ -9,6 +9,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(
 	printf("[+] Game World State initialized\n");
 
 
+    this->GameEntities = new std::vector<Entity*>();
 
     
 	// We will prob have a player selection screen. We should create the functionality without implemenation. We can then use this array
@@ -32,12 +33,15 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(
 				BackgroundScrollingComponent* bck = new BackgroundScrollingComponent(background);
 
 				background->AddComponent(bck);
+                
+                //this->GameEntities->push_back(background);
+                
             }
             
 			if (x->getEntityType() == EntityType::Player)
 			{
 				// player config
-				player = new Entity(x);
+				Entity* player = new Entity(x);
 				player->setPosition(sf::Vector2f(0,0));
 
 
@@ -46,11 +50,31 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(
 				//Component* control = new CharacterControllerComponent(player, phybod);
 				CharacterControllerComponent* control = new CharacterControllerComponent(player, phybod);
 
+                ColliderComponent* collider = new ColliderComponent (player, phybod);
+                
 				player->AddComponent(control);
 				player->AddComponent(phybod);
-
+                player->AddComponent(collider);
+                
+                this->GameEntities->push_back(player);
 				// end of test
 			}
+            if (x->getEntityType() == EntityType::Enemy)
+            {
+                // this is enemy;
+                
+                Entity* enemy = new Entity(x);
+                enemy->setPosition(sf::Vector2f(500,0));
+                PhysicsBodyComponent* phybod = new PhysicsBodyComponent(enemy);
+                ColliderComponent* collider = new ColliderComponent (enemy, phybod);
+                
+                
+                
+                enemy->AddComponent(phybod);
+                enemy->AddComponent(collider);
+                
+                this->GameEntities->push_back(enemy);
+            }
 		}
 
 	}
@@ -69,12 +93,51 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(
 bool GameWorldState::update(float& dt)
 {
 
-	player->runActionsUpdate(dt);
-	background->runActionsUpdate(dt);
+	//player->runActionsUpdate(dt);
+	//background->runActionsUpdate(dt);
+    
+    // loop through our vector of game entities
+    
+    
+    this->background->runActionsUpdate(dt);
+    
+    
+    
+    for (auto &a : *this->GameEntities)
+    {
+        a->runActionsUpdate(dt);
+        
+        for (auto obj : a->getComponents())
+        {
+           
+            
+            if (dynamic_cast<ColliderComponent*>(obj))
+            {
+                //printf ("contains a collider\n");
+                
+                //works
+                
+                
+                //if contains collider we can perform physics actions
+                
+                
+                
+                
+            }
+        }
+        
+    }
+    
+    
+    // We will check if has collider then check ? idk
+    
+    
     
  
 	return true;
 }
+
+
 
 bool GameWorldState::render(sf::RenderTarget* target)
 {
@@ -84,9 +147,17 @@ bool GameWorldState::render(sf::RenderTarget* target)
 	//target->draw(*player);
 
 
-	background->DrawThis(target);
-	player->DrawThis(target);
+	//background->DrawThis(target);
+	//player->DrawThis(target);
 
+    this->background->DrawThis(target);
+    
+    
+    for (auto &a : *this->GameEntities)
+    {
+        a->DrawThis(target);
+    }
+    
 	return true;
 }
 
@@ -102,11 +173,14 @@ void GameWorldState::updateInput(float& dt, sf::Event* event)
 		}
 	}
     
+    //this->background->runInputUpdate(dt, event);
     
-    
-    player->runInputUpdate(dt, event);
+    //player->runInputUpdate(dt, event);
 
-    
+    for (auto &a : *this->GameEntities)
+    {
+        a->runInputUpdate(dt, event);
+    }
     
 }
 
@@ -114,11 +188,18 @@ GameWorldState::~GameWorldState()
 {
     
     // TEST ONLY
-    if (player != nullptr)
-        delete player;
-    if (background != nullptr)
-    delete background;
     
+    if (this->background != nullptr)
+        delete this->background;
+    if (!this->GameEntities->empty())
+    {
+        for (auto &a : *this->GameEntities)
+        {
+            delete a;
+        }
+        this->GameEntities->clear();
+        delete this->GameEntities;
+    }
     if (!this->gameResources.empty())
     {
         for (auto&gr : this->gameResources)

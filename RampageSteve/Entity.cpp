@@ -61,6 +61,10 @@ bool Entity::DrawThis(sf::RenderTarget* target)
 	return true;
 }
 
+const std::vector<Component*> Entity::getComponents() 
+{
+    return this->entity_components;
+}
 Entity::~Entity()
 {
 	// remove the entity vector

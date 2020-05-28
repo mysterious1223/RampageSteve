@@ -12,6 +12,7 @@
 
 
 
+class Component;
 class PhysicsBodyComponent;
 class ColliderComponent : public Component
 {

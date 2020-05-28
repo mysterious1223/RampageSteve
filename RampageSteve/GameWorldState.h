@@ -18,6 +18,7 @@ public:
 	// main state loop
 	bool update(float&);
 
+
 	//Render loop
 	bool render(sf::RenderTarget* target);
 
@@ -27,10 +28,13 @@ public:
 
 private:
 	// temp
-	Entity* player = nullptr;
-    Entity* background = nullptr;
+	//Entity* player = nullptr;
+    //Entity* background = nullptr;
 	//std::vector<ConfigurationData*> gameResources;
 
+    std::vector <Entity*> *GameEntities = nullptr;
+    
+    Entity* background = nullptr;
 	~GameWorldState();
 };
 
