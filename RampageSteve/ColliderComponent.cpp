@@ -3,7 +3,7 @@
 
 ColliderComponent::ColliderComponent (Entity* entity, PhysicsBodyComponent* phy) : Component(entity)
 {
-    
+    //empty for now
 }
 
 
