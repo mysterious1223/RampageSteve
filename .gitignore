@@ -339,3 +339,10 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /RampageSteve/._ColliderComponent.cpp
+/RampageSteve/._Globals.h
+/RampageSteve/._GameWorldState.h
+/RampageSteve/._GameWorldState.cpp
+/RampageSteve/._CharacterControllerComponent.h
+/RampageSteve/._CharacterControllerComponent.cpp
+/RampageSteve/._BackgroundScrollingComponent.h
+/RampageSteve/._BackgroundScrollingComponent.cpp

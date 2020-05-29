@@ -125,9 +125,14 @@ bool GameWorldState::update(float& dt)
                     if (a != entity)
                     {
                         
+                        // Collision Will ONLY check for bullets tagged items
+                        
                         if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
                         {
                             printf ("Collision occured %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
+                            
+                            
+                            
                         }
                     }
                 }
