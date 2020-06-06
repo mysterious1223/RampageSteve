@@ -5,6 +5,7 @@
 
 // Base class for all states
 
+class ConfigurationData;
 class Entity;
 class GameState;
 class GameWorldState : public GameState

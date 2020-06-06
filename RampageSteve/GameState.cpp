@@ -1,5 +1,7 @@
 #include "GameState.h"
 
+
+
 GameState::GameState(std::vector<ConfigurationData*> res)
 {
 

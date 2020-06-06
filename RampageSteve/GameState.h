@@ -2,7 +2,10 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 #include "Globals.h"
+
+
 class ConfigurationData;
+
 class GameState {
 
 public:
