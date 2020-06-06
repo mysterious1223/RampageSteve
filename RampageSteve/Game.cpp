@@ -26,6 +26,8 @@ void Game::initStates()
     std::vector<ConfigurationData*> resources = resourceLoader->loadEntityResourceConfig(pathToConfig);
 
     this->states.push(new GameWorldState (resources));
+    this->states.push(new GameMainMenuState (resources));
+    
 	
 }
 

@@ -159,6 +159,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameMainMenuState.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameWorldState.cpp" />
     <ClCompile Include="main.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMainMenuState.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameWorldState.h" />
     <ClInclude Include="Globals.h" />

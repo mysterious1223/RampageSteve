@@ -7,6 +7,7 @@
 class ResourceLoader;
 class GameState;
 class GameWorldState;
+class GameMainMenuState;
 class Game
 {
 public:

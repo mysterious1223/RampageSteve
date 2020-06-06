@@ -7,23 +7,23 @@
 
 class ConfigurationData;
 class GameState;
-class GamMainMenuState : public GameState
+class GameMainMenuState : public GameState
 {
 public:
     
     
-	GamMainMenuState(std::vector<ConfigurationData*> res);
+	GameMainMenuState(std::vector<ConfigurationData*> res);
 
     
 	// main state loop
-	bool update(float&);
+    bool update(float&);
 
 
 	//Render loop
-	bool render(sf::RenderTarget* target);
+    bool render(sf::RenderTarget* target);
 
 	//input update
-	void updateInput(float&, sf::Event*);
+    void updateInput(float&, sf::Event*);
 
 
 private:
@@ -35,7 +35,7 @@ private:
     //std::vector <Entity*> *GameEntities = nullptr;
     
     //Entity* background = nullptr;
-	~GamMainMenuState();
+    ~GameMainMenuState();
 };
 
 #endif //// GAMEMAINMENUSTATE_H
