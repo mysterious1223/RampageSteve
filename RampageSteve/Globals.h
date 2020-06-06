@@ -26,6 +26,7 @@
 #ifndef GAMESTATE_H
 #include "GameState.h"
 #include "GameWorldState.h"
+#include "GameMainMenuState.h"
 #endif //GAMESTATE_H
 
 #ifndef  _COMPONENT_H_
