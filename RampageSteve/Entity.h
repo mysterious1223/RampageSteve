@@ -11,6 +11,7 @@ enum class ObjectType {
 	Dynamic,
 	Static,
     Scenery,
+    UI,
 	None
 
 };
@@ -20,6 +21,7 @@ enum class EntityType {
 	Background,
 	Platform,
     StaticBackground,
+    UI_Image,
 	None
 
 };

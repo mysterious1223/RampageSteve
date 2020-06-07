@@ -12,7 +12,6 @@ public:
 
 	GameState(std::vector<ConfigurationData*>);
 
-    
 
 
 	// main state loop
@@ -30,13 +29,13 @@ public:
 	bool isStateEnd();
 
 
-
+    bool isEnd;
 
 
 	virtual ~GameState();
 protected:
 	// isEnd
-	bool isEnd;
+	
     std::vector<ConfigurationData*> gameResources;
 private:
 	// stack of game states in this class probably only used in menus or maybe scene loading

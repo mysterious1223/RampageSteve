@@ -16,6 +16,11 @@
 #include <SFML/Graphics.hpp>
 #include <stack>
 
+#ifndef SFML_GUI_H
+#include "sfml_gui.h"
+
+#endif //
+
 
 #ifndef __GAME_H__
 #include "Game.h"

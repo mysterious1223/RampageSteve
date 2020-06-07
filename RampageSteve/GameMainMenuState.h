@@ -5,6 +5,8 @@
 
 // Base class for all states
 
+using namespace SFML_GUI;
+
 class ConfigurationData;
 class GameState;
 class GameMainMenuState : public GameState
@@ -13,8 +15,7 @@ public:
     
     
 	GameMainMenuState(std::vector<ConfigurationData*> res);
-
-    
+   
 	// main state loop
     bool update(float&);
 
@@ -25,18 +26,25 @@ public:
 	//input update
     void updateInput(float&, sf::Event*);
 
-
+   
 private:
-	// temp
-	//Entity* player = nullptr;
-    //Entity* background = nullptr;
-	//std::vector<ConfigurationData*> gameResources;
-
-    //std::vector <Entity*> *GameEntities = nullptr;
-    
-    //Entity* background = nullptr;
     ~GameMainMenuState();
+    
+    sf::Texture PlayButtonTexture, QuitButtonTexture;
+    GUI_items::MenuItem* PlayButton = nullptr;
+    GUI_items::MenuItem* QuitButton = nullptr;
+    SFML_GUI::UI_Layouts::MainMenuFlowLayout * MainMenuLayout = nullptr;
+    
+  
+    // Callbacks
+    
+    static void PlayGame ();
+    
+    inline static bool IsMenuOver = false;
+
 };
+
+
 
 #endif //// GAMEMAINMENUSTATE_H
 

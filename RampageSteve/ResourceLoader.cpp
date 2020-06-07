@@ -257,6 +257,10 @@ EntityType ResourceLoader::getEntityTypeFromToken(std::string typ)
     {
         etype = EntityType::StaticBackground;
     }
+    if (typ == "UI_Image")
+    {
+        etype = EntityType::UI_Image;
+    }
     /*
      Player,
      Enemy
@@ -290,7 +294,10 @@ ObjectType ResourceLoader::getObjectTypeFromToken(std::string typ)
     {
         otype = ObjectType::Scenery;
     }
-
+    if (typ == "UI")
+    {
+        otype = ObjectType::UI;
+    }
 	return otype;
 }
 
