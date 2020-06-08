@@ -1,9 +1,13 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "GameMainMenuState.h"
 
 
 
 
-GameMainMenuState::GameMainMenuState(std::vector<ConfigurationData*> res) : GameState(res) {
+GameMainMenuState::GameMainMenuState(std::vector<ConfigurationData*> &res) : GameState(res) {
     
     
   
@@ -104,8 +108,8 @@ GameMainMenuState::~GameMainMenuState()
 {
    
     
-    if (this->MainMenuLayout != nullptr)
-        delete this->MainMenuLayout;
+    //if (this->MainMenuLayout != nullptr)
+    delete this->MainMenuLayout;
     
     // Not sure if we need to clean up buttons (deleted in layout clean up)
 

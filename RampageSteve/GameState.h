@@ -10,7 +10,7 @@ class GameState {
 
 public:
 
-	GameState(std::vector<ConfigurationData*>);
+	GameState(std::vector<ConfigurationData*>&);
 
 
 

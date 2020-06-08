@@ -14,7 +14,7 @@ class GameMainMenuState : public GameState
 public:
     
     
-	GameMainMenuState(std::vector<ConfigurationData*> res);
+	GameMainMenuState(std::vector<ConfigurationData*> &res);
    
 	// main state loop
     bool update(float&);

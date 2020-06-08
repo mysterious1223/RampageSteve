@@ -1,3 +1,7 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "ResourceLoader.h"
 
 
@@ -61,7 +65,7 @@ std::vector<ConfigurationData*> ResourceLoader::loadEntityResourceConfig(std::st
 
        
 		// skips the line with a * anywhere in it
-		if (!line.find("*"))
+		if (line.find('*') != std::string::npos)
 		{
 			continue;
 		}
@@ -99,7 +103,7 @@ std::vector<ConfigurationData*> ResourceLoader::loadEntityResourceConfig(std::st
 				ptr = nullptr;
 
 				startEntity = false;
-				EntityDataString = "";
+				EntityDataString.clear();
 				continue;
 			}
 
@@ -164,77 +168,75 @@ ConfigurationData* ResourceLoader::createEntityConfig(std::string configData)
 			configPointer->addEntityType(getEntityTypeFromToken(tokens[2]));
 			
 		}
-		if (configPointer != nullptr)
+		
+		
+		if (tokens[0] == "Name")
 		{
-			if (tokens[0] == "Name")
+			if (tokens.size() == 2)
 			{
-				if (tokens.size() == 2)
-				{
-					configPointer->addEntityName(tokens[1]);
-				}
+				configPointer->addEntityName(tokens[1]);
 			}
+		}
 
-			if (tokens[0] == "StaticImage")
+		if (tokens[0] == "StaticImage")
+		{
+			if (tokens.size() == 2)
 			{
-				if (tokens.size() == 2)
-				{
-                    resource->path = tokens[1];
+                 resource->path = tokens[1];
+                   
+                   #if __APPLE__
+                       resource->path = "Resources/" + resource->path;
+                   #endif
                     
-                    #if __APPLE__
-                        resource->path = "Resources/" + resource->path;
-                    #endif
-                    
-					///resource->path = tokens[1];
+				///resource->path = tokens[1];
 
-					// need to create Texture
-					if (!CreateResourceStaticImage(*resource, resource->path))
-					{
-						// failed to load Texture. Crash program
-						delete configPointer;
-						configPointer = nullptr;
-						break;
-					}
-				}
-			}
-
-			if (tokens[0] == "SpriteSheet")
-			{
-				if (tokens.size() == 2)
+				// need to create Texture
+				if (!CreateResourceStaticImage(*resource, resource->path))
 				{
-
-				}
-			}
-
-			if (tokens[0] == "Audio")
-			{
-				if (tokens.size() == 2)
-				{
-
-				}
-			}
-			if (tokens[0] == "Effects")
-			{
-				if (tokens.size() == 2)
-				{
-
+					// failed to load Texture. Crash program
+					delete configPointer;
+					configPointer = nullptr;
+					break;
 				}
 			}
 		}
+
+		if (tokens[0] == "SpriteSheet")
+		{
+			if (tokens.size() == 2)
+			{
+
+			}
+		}
+
+		if (tokens[0] == "Audio")
+		{
+			if (tokens.size() == 2)
+			{
+
+			}
+		}
+		if (tokens[0] == "Effects")
+		{
+			if (tokens.size() == 2)
+			{
+			}
+		}
+		
 	}
 
-	if (configPointer != nullptr)
-		configPointer->addResource(resource);
-    else if (resource != nullptr){
-		delete resource;
-        if (configPointer != nullptr)
-            delete configPointer;
-    }
+	if (configPointer)
+        configPointer->addResource(resource);
+  //  if (!resource){
+	//	delete resource;
+        
+    //}
 
 
 	return configPointer;
 }
 
-EntityType ResourceLoader::getEntityTypeFromToken(std::string typ)
+EntityType ResourceLoader::getEntityTypeFromToken(const std::string &typ)
 {
 	EntityType etype = EntityType::None;
 
@@ -277,7 +279,7 @@ EntityType ResourceLoader::getEntityTypeFromToken(std::string typ)
 	return etype;
 }
 
-ObjectType ResourceLoader::getObjectTypeFromToken(std::string typ)
+ObjectType ResourceLoader::getObjectTypeFromToken(const std::string &typ)
 {
 
 	ObjectType otype = ObjectType::None;
@@ -305,7 +307,7 @@ ObjectType ResourceLoader::getObjectTypeFromToken(std::string typ)
 
 
 
-bool ResourceLoader::CreateResourceStaticImage(Resource& resource, std::string path)
+bool ResourceLoader::CreateResourceStaticImage(Resource& resource, const std::string &path)
 {
 	resource.path = path;
 	resource.type = ResourceType::Image;
@@ -337,7 +339,7 @@ ConfigurationData::ConfigurationData(EntityType et, std::string name, ObjectType
 	{
 		this->addEntityType(et);
 	}
-	if (name != "")
+	if (!name.empty())
 	{
 		
 		this->addEntityName(name);
@@ -385,11 +387,11 @@ ConfigurationData::~ConfigurationData()
 {
 	// delete all
 	
-	if (this->resources != nullptr)
-	{
+	//if (this->resources != nullptr)
+	//{
         
-		delete this->resources;
-	}
+	delete this->resources;
+	//}
 
 
 

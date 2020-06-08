@@ -1,10 +1,14 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "GameWorldState.h"
 
 
 
 
 
-GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(res) {
+GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState(res) {
 
 	printf("[+] Game World State initialized\n");
 
@@ -205,8 +209,8 @@ GameWorldState::~GameWorldState()
     
     // TEST ONLY
     
-    if (this->background != nullptr)
-        delete this->background;
+    //if (this->background != nullptr)
+    delete this->background;
     if (!this->GameEntities->empty())
     {
         for (auto &a : *this->GameEntities)

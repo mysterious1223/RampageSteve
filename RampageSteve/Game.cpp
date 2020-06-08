@@ -1,3 +1,7 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "Game.h"
 
 Game::Game()
@@ -142,8 +146,8 @@ Game::~Game()
         
     }
     */
-	if (resourceLoader != nullptr)
-		delete resourceLoader;
+	//if (resourceLoader != nullptr)
+	delete resourceLoader;
 
 	while (!this->states.empty())
 	{
@@ -155,10 +159,10 @@ Game::~Game()
 
 
 	}
-	if (window != nullptr)
-	{
-		delete window;
-	}
+	//if (window != nullptr)
+	//{
+	delete window;
+	//}
 
 	printf("[!!!] GAME TERMINATED\n");
 }

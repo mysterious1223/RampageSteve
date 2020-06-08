@@ -1,3 +1,8 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+
 #include "BackgroundScrollingComponent.h"
 
 
@@ -87,6 +92,6 @@ void BackgroundScrollingComponent::updateRender(sf::RenderTarget* target)
 
 BackgroundScrollingComponent::~BackgroundScrollingComponent()
 {
-    if (this->childInstance != nullptr)
-        delete this->childInstance;
+    //if (this->childInstance != nullptr)
+    delete this->childInstance;
 }

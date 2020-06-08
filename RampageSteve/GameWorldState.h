@@ -13,7 +13,7 @@ class GameWorldState : public GameState
 public:
     
     
-	GameWorldState(std::vector<ConfigurationData*> res);
+	GameWorldState(std::vector<ConfigurationData*> &res);
 
     
 	// main state loop

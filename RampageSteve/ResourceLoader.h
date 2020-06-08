@@ -80,15 +80,15 @@ public:
 
 private:
 
-	EntityType getEntityTypeFromToken(std::string);
-	ObjectType getObjectTypeFromToken(std::string);
+	EntityType getEntityTypeFromToken(const std::string &);
+	ObjectType getObjectTypeFromToken(const std::string &);
 
 
 
 
 	// we need to make sure the resource can actually be located
 	// if cant locate anything return false and set resource to null
-	bool CreateResourceStaticImage(Resource&, std::string);
+	bool CreateResourceStaticImage(Resource&,const std::string&);
 	bool CreateResourceSpriteSheet(Resource&, std::string);
 	bool CreateResourceAudio(Resource&, std::string);
 	bool CreateResourceEffect(Resource&, std::string);

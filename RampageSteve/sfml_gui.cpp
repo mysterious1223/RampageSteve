@@ -1,3 +1,7 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "sfml_gui.h"
 
 
@@ -111,6 +115,7 @@ void SFML_GUI::GUI_items::MenuItem::updateInput (const float&, const sf::Event *
         
         
     }
+  
 }
 
 SFML_GUI::Layout::Layout (const sf::Vector2f &pos) : sf::Transformable (){
@@ -124,7 +129,7 @@ SFML_GUI::Layout::Layout (const sf::Vector2f &pos) : sf::Transformable (){
 
 SFML_GUI::UI_Layouts::MainMenuFlowLayout::MainMenuFlowLayout(const unsigned size, const sf::Vector2f &pos) : Layout(pos)
 {
-    this->menuItemsArray = new GUI_items::MenuItem * [size];
+    this->menuItemsArray = new GUI_items::MenuItem * [(size_t)size];
     this->sizeOfItemArray = size;
     
     if (!this->init())
@@ -138,7 +143,7 @@ SFML_GUI::UI_Layouts::MainMenuFlowLayout::MainMenuFlowLayout(const unsigned size
 SFML_GUI::UI_Layouts::MainMenuFlowLayout::MainMenuFlowLayout (const unsigned size, const SFML_GUI::SCREEN_POSITION_VERTICAL POSITION) : Layout(sf::Vector2f (0,0))
 {
     // we need to set position
-    this->menuItemsArray = new GUI_items::MenuItem * [size];
+    this->menuItemsArray = new GUI_items::MenuItem * [(size_t)size];
     this->sizeOfItemArray = size;
     
     if (POSITION == SFML_GUI::SCREEN_POSITION_VERTICAL::TOP)
@@ -184,7 +189,7 @@ void SFML_GUI::UI_Layouts::MainMenuFlowLayout::render (sf::RenderTarget* target)
     {
         for (unsigned i = 0; i < this->sizeOfItemArray; i ++)
         {
-            target->draw(*this->menuItemsArray[i]);
+            target->draw(*this->menuItemsArray[(size_t)i]);
         }
         
         
@@ -196,7 +201,7 @@ void SFML_GUI::UI_Layouts::MainMenuFlowLayout::updateInput(const float &dt, cons
     {
         for (unsigned i = 0; i < this->sizeOfItemArray; i ++)
         {
-            this->menuItemsArray[i]->updateInput(dt, event);
+            this->menuItemsArray[(size_t)i]->updateInput(dt, event);
         }
         
         
@@ -214,7 +219,7 @@ bool SFML_GUI::UI_Layouts::MainMenuFlowLayout::AddItem (GUI_Component* item, con
     
     
     // a cast to the GUI Comp to make it a menuitem
-    this->menuItemsArray [this->currIncrement] = (GUI_items::MenuItem *) item;
+    this->menuItemsArray [(size_t)this->currIncrement] = (GUI_items::MenuItem *) item;
     this->currIncrement ++;
     
     //We can Position items here
@@ -246,7 +251,8 @@ void SFML_GUI::UI_Layouts::MainMenuFlowLayout::rePositionElements ()
         {
             // this isn't working properly we should fix
             
-            this->menuItemsArray[i]->setPosition(this->menuItemsArray[i]->getPosition().x, this->menuItemsArray[i]->getPosition().y - this->menuItemsArray[i]->getTextureRect().height);
+            this->menuItemsArray[(size_t)i]->setPosition(this->menuItemsArray[(size_t)i]->getPosition().x, 
+                this->menuItemsArray[(size_t)i]->getPosition().y - this->menuItemsArray[(size_t)i]->getTextureRect().height);
             
         }
         
@@ -261,9 +267,10 @@ SFML_GUI::UI_Layouts::MainMenuFlowLayout::~MainMenuFlowLayout(){
     
     if (this->menuItemsArray != nullptr)
     {
+        
         for (unsigned i = 0; i < this->sizeOfItemArray; i ++)
         {
-            delete this->menuItemsArray [i];
+            delete this->menuItemsArray [(size_t)i];
         }
         
         delete this->menuItemsArray;
