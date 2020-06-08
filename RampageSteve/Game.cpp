@@ -23,7 +23,7 @@ void Game::initStates()
 	// push our game into the stack
 
 	//GameWorldState* myState = new GameWorldState ();
-    std::vector<ConfigurationData*> resources = resourceLoader->loadEntityResourceConfig(pathToConfig);
+    this->resources = resourceLoader->loadEntityResourceConfig(pathToConfig);
 
     this->states.push(new GameWorldState (resources));
     this->states.push(new GameMainMenuState (resources));
@@ -83,6 +83,16 @@ void Game::MainUpdate()
 			this->states.pop();
 
 		}
+		if (GameState::isAppEnd)
+		{
+			printf("App is ending!\n");
+
+			if (!this->EndGame())
+			{
+				printf("Game Can't end!\n");
+			}
+		}
+
 	}
 
 	if (this->states.empty()) {
@@ -122,7 +132,16 @@ void Game::run()
 
 Game::~Game()
 {
-
+    /*
+    if (!this->resources.empty())
+    {
+        for (auto& element : this->resources)
+        {
+            delete element;
+        }
+        
+    }
+    */
 	if (resourceLoader != nullptr)
 		delete resourceLoader;
 
@@ -142,4 +161,22 @@ Game::~Game()
 	}
 
 	printf("[!!!] GAME TERMINATED\n");
+}
+
+bool Game::EndGame()
+{
+	printf("Cleaning up and ending game\n");
+
+	while (!this->states.empty())
+	{
+		auto& temp = this->states.top();
+
+		delete temp;
+
+		this->states.pop();
+
+	}
+
+
+	return true;
 }

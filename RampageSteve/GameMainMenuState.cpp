@@ -5,6 +5,7 @@
 
 GameMainMenuState::GameMainMenuState(std::vector<ConfigurationData*> res) : GameState(res) {
     
+    
   
     if (!this->gameResources.empty())
     {
@@ -42,6 +43,7 @@ GameMainMenuState::GameMainMenuState(std::vector<ConfigurationData*> res) : Game
                     this->QuitButton = new SFML_GUI::GUI_items::MenuItem (&this->QuitButtonTexture);
                     this->MainMenuLayout->AddItem(this->QuitButton);
                     
+                    this->QuitButton->setOnClickCallBackFunction(GameMainMenuState::EndGame);
                 }
             }
             
@@ -57,6 +59,10 @@ GameMainMenuState::GameMainMenuState(std::vector<ConfigurationData*> res) : Game
 void GameMainMenuState::PlayGame ()
 {
     GameMainMenuState::IsMenuOver = true;
+}
+void GameMainMenuState::EndGame()
+{
+    GameState::isAppEnd = true;
 }
 // main state loop
 bool GameMainMenuState::update(float& dt)

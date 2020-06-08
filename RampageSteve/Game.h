@@ -4,6 +4,7 @@
 
 #include "Globals.h"
 
+class ConfigurationData;
 class ResourceLoader;
 class GameState;
 class GameWorldState;
@@ -39,9 +40,11 @@ private:
 	sf::Event sfEvent;
 	sf::Vector2f viewSize;
 
+    std::vector<ConfigurationData*> resources;
+    
 	std::stack<GameState*> states;
 
-
+	bool EndGame();
 
 
 	bool isApplicationEnd = false;

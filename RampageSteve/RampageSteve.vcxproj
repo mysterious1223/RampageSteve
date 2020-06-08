@@ -165,6 +165,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicsBodyComponent.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
+    <ClCompile Include="sfml_gui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundScrollingComponent.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="PhysicsBodyComponent.h" />
     <ClInclude Include="ResourceLoader.h" />
+    <ClInclude Include="sfml_gui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,8 +39,10 @@ private:
     // Callbacks
     
     static void PlayGame ();
+    static void EndGame();
     
     inline static bool IsMenuOver = false;
+
 
 };
 

@@ -63,7 +63,7 @@ public:
 	std::string path;
 	ResourceType type = ResourceType::None;
 	sf::Texture thisTexture;
-
+    ~Resource () {};
 };
 
 class ResourceLoader

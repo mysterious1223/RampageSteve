@@ -140,7 +140,7 @@ std::vector<ConfigurationData*> ResourceLoader::loadEntityResourceConfig(std::st
 ConfigurationData* ResourceLoader::createEntityConfig(std::string configData)
 {
 
-	ConfigurationData* configPointer = nullptr;
+	ConfigurationData* configPointer = new ConfigurationData;
 
 	Resource* resource = new Resource;
 	std::istringstream iss(configData);
@@ -156,8 +156,8 @@ ConfigurationData* ResourceLoader::createEntityConfig(std::string configData)
 
 		if (tokens[0] == "START_ENTITY")
 		{
-			configPointer = new ConfigurationData;
-			
+			//configPointer = new ConfigurationData;
+            //configPointer (new ConfigurationData);
 
 
 			configPointer->addObjectType(getObjectTypeFromToken(tokens[1]));
@@ -224,9 +224,11 @@ ConfigurationData* ResourceLoader::createEntityConfig(std::string configData)
 
 	if (configPointer != nullptr)
 		configPointer->addResource(resource);
-	else if (resource != nullptr)
+    else if (resource != nullptr){
 		delete resource;
-	
+        if (configPointer != nullptr)
+            delete configPointer;
+    }
 
 
 	return configPointer;
@@ -385,6 +387,7 @@ ConfigurationData::~ConfigurationData()
 	
 	if (this->resources != nullptr)
 	{
+        
 		delete this->resources;
 	}
 

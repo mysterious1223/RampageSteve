@@ -28,14 +28,18 @@ public:
 	// check if state is end and perform cleanup
 	bool isStateEnd();
 
+	// end app
 
-    bool isEnd;
-
+	inline static bool isAppEnd = false;
 
 	virtual ~GameState();
 protected:
 	// isEnd
+	// end state
+	bool isEnd = false;
 	
+
+
     std::vector<ConfigurationData*> gameResources;
 private:
 	// stack of game states in this class probably only used in menus or maybe scene loading
