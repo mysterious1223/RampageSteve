@@ -26,17 +26,18 @@ sf::Vector2f getScreenPosition_vertical (SCREEN_POSITION_VERTICAL POSITION)
         // the top
         return sf::Vector2f();
     }
-    
+    return sf::Vector2f ();
 }
 
 
 // CONSTRUCT BASE CLASS TO POINT THE TEXTURE CORRECTLY
 
-GUI_Component::GUI_Component (const sf::Texture* texture) : sf::Sprite (*texture)
+GUI_Component::GUI_Component(const sf::Texture* texture) : sf::Sprite (*texture)
 {
-    
+    this->isClicked = false;
+    this->clickCBPtr = nullptr;
 }
-void GUI_Component::setOnClickCallBackFunction (void (*cb)()){
+void GUI_Component::setOnClickCallBackFunction(void (*cb)()){
     
     this->clickCBPtr = cb;
     
@@ -93,8 +94,8 @@ void SFML_GUI::GUI_items::MenuItem::updateInput (const float&, const sf::Event *
 {
     if (event->type == sf::Event::MouseButtonPressed)
     {
-        float mX = event->mouseButton.x;
-        float mY = event->mouseButton.y;
+        float mX = (float) event->mouseButton.x;
+        float mY = (float) event->mouseButton.y;
         
         if (this->getGlobalBounds().contains(mX, mY))
         {
@@ -225,7 +226,7 @@ bool SFML_GUI::UI_Layouts::MainMenuFlowLayout::AddItem (GUI_Component* item, con
     item->setPosition(this->getPosition().x,this->getPosition().y + this->offset);
     
     // padding underneath each element
-    this->offset += item->getTextureRect().height + marginH;
+    this->offset += (unsigned) (item->getTextureRect().height + marginH);
     
 
     
@@ -251,7 +252,7 @@ void SFML_GUI::UI_Layouts::MainMenuFlowLayout::rePositionElements ()
         
     }
     
-    	
+        
 }
 
 
@@ -262,12 +263,11 @@ SFML_GUI::UI_Layouts::MainMenuFlowLayout::~MainMenuFlowLayout(){
     {
         for (unsigned i = 0; i < this->sizeOfItemArray; i ++)
         {
-            
-            if (this->menuItemsArray [i] != nullptr)
-                delete this->menuItemsArray [i];
+            delete this->menuItemsArray [i];
         }
-        if (this->menuItemsArray != nullptr)
-            delete this->menuItemsArray;
+        
+        delete this->menuItemsArray;
     }
     
 }
+
