@@ -19,11 +19,11 @@ bool ColliderComponent::init()
     return true;
 }
 
-void ColliderComponent::update(float& dt)
+void ColliderComponent::update(const float& dt)
 {
     
 }
-void ColliderComponent::updateInput (float& dt, sf::Event* event)
+void ColliderComponent::updateInput (const float& dt, sf::Event* event)
 {
     
 }

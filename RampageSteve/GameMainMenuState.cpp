@@ -16,7 +16,7 @@ GameMainMenuState::GameMainMenuState(std::vector<ConfigurationData*> &res) : Gam
         // Resources loaded we can now assign them game objects
         // no character selectection as yet
 
-        
+        // This needs to change
         this->MainMenuLayout = new SFML_GUI::UI_Layouts::MainMenuFlowLayout (2, sf::Vector2f (1024/2, 768/2));
     
     
@@ -69,7 +69,7 @@ void GameMainMenuState::EndGame()
     GameState::isAppEnd = true;
 }
 // main state loop
-bool GameMainMenuState::update(float& dt)
+bool GameMainMenuState::update(const float& dt)
 {
    // if (GameMainMenuState::isMenuOver)
    // {
@@ -91,7 +91,7 @@ bool GameMainMenuState::render(sf::RenderTarget* target)
 }
 
 //input update
-void GameMainMenuState::updateInput(float& dt, sf::Event* event)
+void GameMainMenuState::updateInput(const float& dt, sf::Event* event)
 {
     
     if (event->type == sf::Event::KeyPressed) {

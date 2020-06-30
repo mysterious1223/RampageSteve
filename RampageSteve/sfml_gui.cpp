@@ -13,7 +13,7 @@ using namespace SFML_GUI;
 
 sf::Vector2f getScreenPosition_vertical (SCREEN_POSITION_VERTICAL POSITION)
 {
-    
+    /*
     
     if (POSITION == SFML_GUI::SCREEN_POSITION_VERTICAL::TOP)
     {
@@ -30,6 +30,7 @@ sf::Vector2f getScreenPosition_vertical (SCREEN_POSITION_VERTICAL POSITION)
         // the top
         return sf::Vector2f();
     }
+    */
     return sf::Vector2f ();
 }
 
@@ -41,7 +42,7 @@ GUI_Component::GUI_Component(const sf::Texture* texture) : sf::Sprite (*texture)
     this->isClicked = false;
     this->clickCBPtr = nullptr;
 }
-void GUI_Component::setOnClickCallBackFunction(void (*cb)()){
+void GUI_Component::setOnClickCallBackFunction(callBackFunc cb){
     
     this->clickCBPtr = cb;
     
@@ -127,10 +128,9 @@ SFML_GUI::Layout::Layout (const sf::Vector2f &pos) : sf::Transformable (){
     
 }
 
-SFML_GUI::UI_Layouts::MainMenuFlowLayout::MainMenuFlowLayout(const unsigned size, const sf::Vector2f &pos) : Layout(pos)
+SFML_GUI::UI_Layouts::MainMenuFlowLayout::MainMenuFlowLayout(const unsigned size, const sf::Vector2f& pos) : Layout(pos), sizeOfItemArray{ size }, menuItemsArray{new GUI_items::MenuItem * [(size_t)size] }
 {
-    this->menuItemsArray = new GUI_items::MenuItem * [(size_t)size];
-    this->sizeOfItemArray = size;
+    
     
     if (!this->init())
     {
@@ -273,7 +273,7 @@ SFML_GUI::UI_Layouts::MainMenuFlowLayout::~MainMenuFlowLayout(){
             delete this->menuItemsArray [(size_t)i];
         }
         
-        delete this->menuItemsArray;
+        delete [] this->menuItemsArray;
     }
     
 }

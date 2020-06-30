@@ -17,14 +17,14 @@ public:
 
     
 	// main state loop
-	bool update(float&);
+	bool update(const float&);
 
 
 	//Render loop
 	bool render(sf::RenderTarget* target);
 
 	//input update
-	void updateInput(float&, sf::Event*);
+	void updateInput(const float&, sf::Event*);
 
 
 private:

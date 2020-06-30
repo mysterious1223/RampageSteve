@@ -4,7 +4,7 @@
 
 #include "CharacterControllerComponent.h"
 
-CharacterControllerComponent::CharacterControllerComponent(Entity* entity) : Component (entity)
+CharacterControllerComponent::CharacterControllerComponent(Entity* entity) : Component (entity), mouseClickedLocation {}
 {
     // Maybe this should also take in the physics component?
   
@@ -24,8 +24,17 @@ bool CharacterControllerComponent::init()
 	return true;
 }
 
-void CharacterControllerComponent::update(float& dt)
+void CharacterControllerComponent::update(const float& dt)
 {
+    
+    
+    if (this->isMouseClicked)
+    {
+        // trigger the attack
+        this->thisEntity->RangedAttack(this->mouseClickedLocation);
+        
+    }
+    
     if (this->isSpaceDown)
     {
         this->phyBod->triggerJump();
@@ -40,13 +49,14 @@ void CharacterControllerComponent::update(float& dt)
     }
     
 
+
     
     if (!this->isADown && !this->isDDown)
     {
         this->phyBod->moveStop(dt);
     }
 }
-void CharacterControllerComponent::updateInput (float& dt, sf::Event* event)
+void CharacterControllerComponent::updateInput (const float& dt, sf::Event* event)
 {
     
     /*
@@ -54,6 +64,24 @@ void CharacterControllerComponent::updateInput (float& dt, sf::Event* event)
      a pointer for this object will link it to attack
      
      */
+    
+    if (event->type == sf::Event::MouseButtonPressed)
+    {
+        //float mX = (float) event->mouseButton.x;
+        //float mY = (float) event->mouseButton.y;
+        this->mouseClickedLocation = sf::Vector2f (event->mouseButton.x, event->mouseButton.y);
+        
+        this->isMouseClicked = true;
+    }
+    if (event->type == sf::Event::MouseButtonReleased)
+    {
+        //float mX = (float) event->mouseButton.x;
+        //float mY = (float) event->mouseButton.y;
+        
+        
+        this->isMouseClicked = false;
+    }
+    
     
     if (event->type == sf::Event::KeyPressed)
     {

@@ -14,9 +14,9 @@ public:
     // When component is added to an entity this is automatically called
 	virtual bool init() = 0;
 
-	virtual void update(float& dt) = 0;
+	virtual void update(const float& dt) = 0;
 
-    virtual void updateInput (float& dt, sf::Event*) = 0;
+    virtual void updateInput (const float& dt, sf::Event*) = 0;
 
     virtual void updateRender(sf::RenderTarget* target) = 0;
 

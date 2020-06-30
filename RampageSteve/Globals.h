@@ -10,9 +10,12 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <cmath>
 #if __APPLE__
 #include <unistd.h>
 #endif
+
+
 #include <SFML/Graphics.hpp>
 #include <stack>
 
@@ -58,4 +61,5 @@ const std::string pathToConfig = "EntityConfigurations/Entities.config";
 
 // Works on mac
 //const std::string pathToConfigMac = "Resources/EntityConfigurations/Entities.config";
+
 

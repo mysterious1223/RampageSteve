@@ -94,7 +94,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 }
 
 
-bool GameWorldState::update(float& dt)
+bool GameWorldState::update(const float& dt)
 {
 
 	//player->runActionsUpdate(dt);
@@ -181,7 +181,7 @@ bool GameWorldState::render(sf::RenderTarget* target)
 	return true;
 }
 
-void GameWorldState::updateInput(float& dt, sf::Event* event)
+void GameWorldState::updateInput(const float& dt, sf::Event* event)
 {
 
     

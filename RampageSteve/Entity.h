@@ -42,11 +42,11 @@ public:
 
 
     
-    bool runInputUpdate (float& dt,sf::Event*);
+    bool runInputUpdate (const float& dt,sf::Event*);
     
 	
 	// maybe a run actions call to use components? [Overridable] - make this automatically call component updates?
-	bool runActionsUpdate(float& dt);
+	bool runActionsUpdate(const float& dt);
     
 	bool DrawThis(sf::RenderTarget*);
   
@@ -55,12 +55,22 @@ public:
     
     const std::string getName () {return this->name;};
     
+    
+    void RangedAttack (const sf::Vector2f &);
+    
+    
 private:
 
 	std::vector <Component*> entity_components;
     
     std::string name;
     
+    
+    // Only works for integer positions along X or Y cant be used for range attacks. I think
+    sf::Vector2f getDirection (const sf::Vector2f&) const;
+    
+    
+    //sf::RectangleShape borderRect;
 };
 
 #endif //ENTITY_H

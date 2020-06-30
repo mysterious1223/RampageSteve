@@ -14,9 +14,9 @@ public:
 
 	bool init();
 
-	void update(float& dt);
+	void update(const float& dt);
 
-	void updateInput(float& dt, sf::Event*);
+	void updateInput(const float& dt, sf::Event*);
 
 	void updateRender(sf::RenderTarget* target);
 
@@ -33,7 +33,7 @@ public:
 
 
 	// Stop Horizonal movement
-	bool moveStop(float& dt);
+	bool moveStop(const float& dt);
 
 
 	~PhysicsBodyComponent();
@@ -41,10 +41,10 @@ private:
 	
 	void AddDebugBorder();
 
-	void ApplyForceToHorizontalVelocity(int dir);
-	void StopForceToHorizontalVelocity(float& dt);
+	void ApplyForceToHorizontalVelocity(const int& dir);
+	void StopForceToHorizontalVelocity(const float& dt);
 	// gravity
-	void applyGravity(float& dt);
+	void applyGravity(const float& dt);
 
 	// assume it is grounded
 	bool isGrounded = false;

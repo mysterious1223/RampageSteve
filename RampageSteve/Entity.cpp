@@ -24,7 +24,7 @@ bool Entity::AddComponent(Component* comp)
 	return false;
 }
 
-bool Entity::runInputUpdate (float& dt,sf::Event* event)
+bool Entity::runInputUpdate (const float& dt,sf::Event* event)
 {
     for (auto& c : this->entity_components)
     {
@@ -35,7 +35,7 @@ bool Entity::runInputUpdate (float& dt,sf::Event* event)
 	return true;
 }
 
-bool Entity::runActionsUpdate(float& dt)
+bool Entity::runActionsUpdate(const float& dt)
 {
 	
 	for (auto& c : this->entity_components)
@@ -71,6 +71,60 @@ const std::vector<Component*> Entity::getComponents()
 {
     return this->entity_components;
 }
+void Entity::RangedAttack (const sf::Vector2f & mPos){
+    // We now have the attack position. We need to translate it to a direction
+    
+    sf::Vector2f dir = this->getDirection(mPos);
+    
+    
+    //printf ("This Entity %f, %f Target %f, %f\n", this->getPosition().x, this->getPosition().y,
+      //      mPos.x, mPos.y);
+    
+    //borderRect = sf::RectangleShape (sf::Vector2f(30, 30));
+    //borderRect.setFillColor(sf::Color(255, 0, 0, 255));
+    
+    
+    printf ("Ranged attack at %f, %f\n", dir.x, dir.y);
+    
+    //borderRect.move(dir.x, dir.y);
+}
+
+
+sf::Vector2f Entity::getDirection (const sf::Vector2f& end_position) const
+{
+    float h = 0;
+    float v = 0;
+    
+    float x = (end_position.x - this->getPosition().x);
+    float y = (end_position.y - this->getPosition().y);
+    
+    if (x != 0)
+    {
+            //h = round(x/x);
+
+        h = x / abs(x);
+
+
+    }
+    else
+        h = 0;
+
+    if (y != 0)
+    {
+        v = y / abs(y);
+    }
+    else
+        v = 0;
+
+
+
+
+
+    return sf::Vector2f(h, v);
+    
+    
+}
+
 Entity::~Entity()
 {
 	// remove the entity vector
@@ -85,3 +139,47 @@ Entity::~Entity()
 		this->entity_components.clear();
 	}
 }
+
+
+/*
+ GetDirection(cocos2d::Vec2 endPoint)
+ {
+     
+
+     float h = 0;
+     float v = 0;
+
+     float x = round(endPoint.x - getPosition().x);
+     float y = round(endPoint.y - getPosition().y);
+
+
+
+
+     if (x != 0)
+     {
+             //h = round(x/x);
+
+         h = x / abs(x);
+
+
+     }
+     else
+         h = 0;
+
+     if (y != 0)
+     {
+         v = y / abs(y);
+     }
+     else
+         v = 0;
+
+
+
+
+
+     return cocos2d::Vec2(h, v);
+
+
+
+ }
+ */

@@ -75,7 +75,7 @@ void Game::MainUpdate()
 
 		if (this->states.top()->isStateEnd())
 		{
-			printf("[+] State trigger shut down \n");
+			printf("[+] removing state \n");
 
 
 			//delete current state and save its values
@@ -85,6 +85,7 @@ void Game::MainUpdate()
 			delete temp;
 
 			this->states.pop();
+
 
 		}
 		if (GameState::isAppEnd)

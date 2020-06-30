@@ -15,13 +15,13 @@ public:
 
 
 	// main state loop
-	virtual bool update(float&) = 0;
+	virtual bool update(const float&) = 0;
 
 	//Render loop
 	virtual bool render(sf::RenderTarget* target = nullptr) = 0;
 
 	//input update
-	virtual void updateInput(float&, sf::Event*) = 0;
+	virtual void updateInput(const float&, sf::Event*) = 0;
 
 
 	

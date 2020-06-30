@@ -17,9 +17,9 @@ public:
 
 	bool init();
 
-	void update(float& dt);
+	void update(const float& dt);
     
-    void updateInput (float& dt, sf::Event*);
+    void updateInput (const float& dt, sf::Event*);
 
     void updateRender(sf::RenderTarget* target);
 
@@ -33,6 +33,10 @@ private:
     bool isWDown = false;
     
     bool isSpaceDown = false;
+    
+    bool isMouseClicked = false;
+    sf::Vector2f mouseClickedLocation;
+    
     PhysicsBodyComponent* phyBod = nullptr;
     
 };

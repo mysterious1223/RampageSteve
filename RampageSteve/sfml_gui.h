@@ -182,7 +182,7 @@ namespace SFML_GUI {
                 unsigned offset = 0;
             
                 
-                SFML_GUI::SCREEN_POSITION_VERTICAL LayoutPositon;
+                //SFML_GUI::SCREEN_POSITION_VERTICAL LayoutPositon;
             
         };
         

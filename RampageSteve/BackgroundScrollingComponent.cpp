@@ -50,7 +50,7 @@ bool BackgroundScrollingComponent::init()
 	return true;
 }
 
-void BackgroundScrollingComponent::update(float& dt)
+void BackgroundScrollingComponent::update(const float& dt)
 {
     
     
@@ -81,7 +81,7 @@ void BackgroundScrollingComponent::update(float& dt)
 
 
 
-void BackgroundScrollingComponent::updateInput(float& dt, sf::Event*)
+void BackgroundScrollingComponent::updateInput(const float& dt, sf::Event*)
 {
 }
 

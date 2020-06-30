@@ -30,7 +30,7 @@ bool PhysicsBodyComponent::init()
 	return true;
 }
 
-void PhysicsBodyComponent::update(float& dt)
+void PhysicsBodyComponent::update(const float& dt)
 {
 
 	//this->ApplyForceToHorizontalVelocity(-1);
@@ -65,7 +65,7 @@ void PhysicsBodyComponent::update(float& dt)
 	this->thisEntity->setPosition(EntityPosition);
 }
 
-void PhysicsBodyComponent::updateInput(float& dt, sf::Event*)
+void PhysicsBodyComponent::updateInput(const float& dt, sf::Event*)
 {
 }
 
@@ -100,7 +100,7 @@ bool PhysicsBodyComponent::moveLeft()
 	return true;
 }
 
-bool PhysicsBodyComponent::moveStop(float& dt)
+bool PhysicsBodyComponent::moveStop(const float& dt)
 {
 
 
@@ -117,22 +117,23 @@ PhysicsBodyComponent::~PhysicsBodyComponent()
 void PhysicsBodyComponent::AddDebugBorder()
 {
 
+    
 	borderRect.setFillColor(sf::Color(255, 0, 0, 255));
 }
 
-void PhysicsBodyComponent::ApplyForceToHorizontalVelocity(int dir)
+void PhysicsBodyComponent::ApplyForceToHorizontalVelocity(const int& dir)
 {
 	this->horizontal_velocity = (this->speed * dir);
 }
 
-void PhysicsBodyComponent::StopForceToHorizontalVelocity(float &dt)
+void PhysicsBodyComponent::StopForceToHorizontalVelocity(const float &dt)
 {
 
 	
 	this->horizontal_velocity -= this->horizontal_velocity * dampening * dt;
 }
 
-void PhysicsBodyComponent::applyGravity(float& dt)
+void PhysicsBodyComponent::applyGravity(const float& dt)
 {
 
 	// Dont apply gravity if it is grounded

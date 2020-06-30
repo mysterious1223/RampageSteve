@@ -9,7 +9,7 @@
 int main()
 {
     // init game
-    Game app = Game();
+    Game app;
 
     //run game
     app.run();
