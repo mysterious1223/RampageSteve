@@ -43,6 +43,7 @@
 #include "PhysicsBodyComponent.h"
 #include "BackgroundScrollingComponent.h"
 #include "ColliderComponent.h"
+#include "RangedCombatComponent.h"
 #endif //  _COMPONENT_H_
 
 

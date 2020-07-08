@@ -53,12 +53,16 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 				PhysicsBodyComponent* phybod = new PhysicsBodyComponent(player);
 				//Component* control = new CharacterControllerComponent(player, phybod);
 				CharacterControllerComponent* control = new CharacterControllerComponent(player, phybod);
-
+                // collider
                 ColliderComponent* collider = new ColliderComponent (player, phybod);
+                // RangedCombat
+                RangedCombatComponent* ranged = new RangedCombatComponent (player,control);
                 
 				player->AddComponent(control);
 				player->AddComponent(phybod);
                 player->AddComponent(collider);
+                player->AddComponent(ranged);
+                
                 
                 this->GameEntities->push_back(player);
 				// end of test
@@ -101,7 +105,7 @@ bool GameWorldState::update(const float& dt)
 	//background->runActionsUpdate(dt);
     
     // loop through our vector of game entities
-    
+    //
     
     this->background->runActionsUpdate(dt);
     
