@@ -1,7 +1,12 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+
 #include "BackgroundScrollingComponent.h"
 
 
-BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity) : Component(entity)
+BackgroundScrollingComponent::BackgroundScrollingComponent(Entity*& entity) : Component(entity)
 {
 
 
@@ -45,7 +50,7 @@ bool BackgroundScrollingComponent::init()
 	return true;
 }
 
-void BackgroundScrollingComponent::update(float& dt)
+void BackgroundScrollingComponent::update(const float& dt)
 {
     
     
@@ -76,17 +81,17 @@ void BackgroundScrollingComponent::update(float& dt)
 
 
 
-void BackgroundScrollingComponent::updateInput(float& dt, sf::Event*)
+void BackgroundScrollingComponent::updateInput(const float& dt, sf::Event*)
 {
 }
 
 void BackgroundScrollingComponent::updateRender(sf::RenderTarget* target)
 {
-    this->childInstance->DrawThis(target);
+    if (!this->childInstance->DrawThis(target)) {printf ("Failed to draw Background");}
 }
 
 BackgroundScrollingComponent::~BackgroundScrollingComponent()
 {
-    if (this->childInstance != nullptr)
-        delete this->childInstance;
+    //if (this->childInstance != nullptr)
+    delete this->childInstance;
 }

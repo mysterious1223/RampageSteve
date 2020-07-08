@@ -1,3 +1,7 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "Game.h"
 
 Game::Game()
@@ -23,9 +27,11 @@ void Game::initStates()
 	// push our game into the stack
 
 	//GameWorldState* myState = new GameWorldState ();
-    std::vector<ConfigurationData*> resources = resourceLoader->loadEntityResourceConfig(pathToConfig);
+    this->resources = resourceLoader->loadEntityResourceConfig(pathToConfig);
 
     this->states.push(new GameWorldState (resources));
+    this->states.push(new GameMainMenuState (resources));
+    
 	
 }
 
@@ -69,7 +75,7 @@ void Game::MainUpdate()
 
 		if (this->states.top()->isStateEnd())
 		{
-			printf("[+] State trigger shut down \n");
+			printf("[+] removing state \n");
 
 
 			//delete current state and save its values
@@ -80,7 +86,18 @@ void Game::MainUpdate()
 
 			this->states.pop();
 
+
 		}
+		if (GameState::isAppEnd)
+		{
+			printf("App is ending!\n");
+
+			if (!this->EndGame())
+			{
+				printf("Game Can't end!\n");
+			}
+		}
+
 	}
 
 	if (this->states.empty()) {
@@ -120,9 +137,18 @@ void Game::run()
 
 Game::~Game()
 {
-
-	if (resourceLoader != nullptr)
-		delete resourceLoader;
+    /*
+    if (!this->resources.empty())
+    {
+        for (auto& element : this->resources)
+        {
+            delete element;
+        }
+        
+    }
+    */
+	//if (resourceLoader != nullptr)
+	delete resourceLoader;
 
 	while (!this->states.empty())
 	{
@@ -134,10 +160,28 @@ Game::~Game()
 
 
 	}
-	if (window != nullptr)
-	{
-		delete window;
-	}
+	//if (window != nullptr)
+	//{
+	delete window;
+	//}
 
 	printf("[!!!] GAME TERMINATED\n");
+}
+
+bool Game::EndGame()
+{
+	printf("Cleaning up and ending game\n");
+
+	while (!this->states.empty())
+	{
+		auto& temp = this->states.top();
+
+		delete temp;
+
+		this->states.pop();
+
+	}
+
+
+	return true;
 }

@@ -10,11 +10,19 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <cmath>
 #if __APPLE__
 #include <unistd.h>
 #endif
+
+
 #include <SFML/Graphics.hpp>
 #include <stack>
+
+#ifndef SFML_GUI_H
+#include "sfml_gui.h"
+
+#endif //
 
 
 #ifndef __GAME_H__
@@ -26,6 +34,7 @@
 #ifndef GAMESTATE_H
 #include "GameState.h"
 #include "GameWorldState.h"
+#include "GameMainMenuState.h"
 #endif //GAMESTATE_H
 
 #ifndef  _COMPONENT_H_
@@ -34,6 +43,7 @@
 #include "PhysicsBodyComponent.h"
 #include "BackgroundScrollingComponent.h"
 #include "ColliderComponent.h"
+#include "RangedCombatComponent.h"
 #endif //  _COMPONENT_H_
 
 
@@ -52,4 +62,5 @@ const std::string pathToConfig = "EntityConfigurations/Entities.config";
 
 // Works on mac
 //const std::string pathToConfigMac = "Resources/EntityConfigurations/Entities.config";
+
 

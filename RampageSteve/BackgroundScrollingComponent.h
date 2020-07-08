@@ -7,13 +7,13 @@ class Component;
 class BackgroundScrollingComponent : public Component
 {
 public:
-	BackgroundScrollingComponent(Entity*);
-
+	BackgroundScrollingComponent(Entity*&);
+    [[nodiscard]]
 	bool init();
 
-	void update(float& dt);
+	void update(const float& dt);
 
-	void updateInput(float& dt, sf::Event*);
+	void updateInput(const float& dt, sf::Event*);
 
 	void updateRender(sf::RenderTarget* target);
 

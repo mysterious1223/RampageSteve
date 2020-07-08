@@ -1,15 +1,19 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "GameWorldState.h"
 
 
 
 
 
-GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(res) {
+GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState(res) {
 
 	printf("[+] Game World State initialized\n");
 
 
-    this->GameEntities = new std::vector<Entity*>();
+    this->GameEntities = std::vector<Entity*>();
 
     
 	// We will prob have a player selection screen. We should create the functionality without implemenation. We can then use this array
@@ -32,7 +36,10 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(
 				float i = 0;
 				BackgroundScrollingComponent* bck = new BackgroundScrollingComponent(background);
 
-				background->AddComponent(bck);
+				if (!background->AddComponent(bck))
+                {
+                    printf ("Failed!\n");
+                }
                 
                 //this->GameEntities->push_back(background);
                 
@@ -44,19 +51,26 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(
 				Entity* player = new Entity(x);
 				player->setPosition(sf::Vector2f(0,0));
 
-
+    
 				// test
 				PhysicsBodyComponent* phybod = new PhysicsBodyComponent(player);
 				//Component* control = new CharacterControllerComponent(player, phybod);
 				CharacterControllerComponent* control = new CharacterControllerComponent(player, phybod);
-
+                // collider
                 ColliderComponent* collider = new ColliderComponent (player, phybod);
+                // RangedCombat
+                RangedCombatComponent* ranged = new RangedCombatComponent (player,true);
                 
-				player->AddComponent(control);
-				player->AddComponent(phybod);
-                player->AddComponent(collider);
+                if (!player->AddComponent(control)) {printf ("Player Error loading controller comp\n");}
+                if (!player->AddComponent(phybod)) {printf ("Player Error loading phy comp\n");}
+                if (!player->AddComponent(collider)) {printf ("Player Error loading coll comp\n");}
+                if (!player->AddComponent(ranged)) {printf ("Player Error loading range comp\n");}
+		
+            
+                // check if object contains a component
+                //player->checkIfContainsComponent<ColliderComponent>();
                 
-                this->GameEntities->push_back(player);
+                this->GameEntities.push_back(player);
 				// end of test
 			}
             if (x->getEntityType() == EntityType::Enemy)
@@ -70,10 +84,10 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(
                 
                 
                 
-                enemy->AddComponent(phybod);
-                enemy->AddComponent(collider);
+                if (!enemy->AddComponent(phybod)) {printf ("enemy Error loading phy comp\n");}
+                if (!enemy->AddComponent(collider)) {printf ("enemy Error loading coll comp\n");}
                 
-                this->GameEntities->push_back(enemy);
+                this->GameEntities.push_back(enemy);
             }
 		}
 
@@ -89,58 +103,67 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> res) : GameState(
 
 }
 
+void GameWorldState::cleanDeletedEntities ()
+{
+    for (unsigned i = 0; i < this->GameEntities.size(); i ++)
+    {
+        if (this->GameEntities [i]->isEntityDeleted())
+        {
+            Entity *t_ptr = this->GameEntities[i];
+            
+            this->GameEntities.erase(this->GameEntities.begin() + i);
+            
+            delete t_ptr;
+        }
+    }
+    
+}
 
-bool GameWorldState::update(float& dt)
+bool GameWorldState::update(const float& dt)
 {
 
+    // remove deleted entities
+    cleanDeletedEntities ();
+    
 	//player->runActionsUpdate(dt);
 	//background->runActionsUpdate(dt);
     
     // loop through our vector of game entities
+    //
+    
+    if (!this->background->runActionsUpdate(dt)) {printf ("Failed to update background\n");}
     
     
-    this->background->runActionsUpdate(dt);
     
-    
-    
-    for (auto &a : *this->GameEntities)
+    for (auto &a : this->GameEntities)
     {
-        a->runActionsUpdate(dt);
+        if (!a->runActionsUpdate(dt)) {printf ("Failed to update entity\n");}
         
-        for (auto obj : a->getComponents())
+        // check if entity contains the collider component
+        if (a->checkIfContainsComponent<ColliderComponent>())
         {
-           
-            
-            if (dynamic_cast<ColliderComponent*>(obj))
+            for (auto& entity : this->GameEntities)
             {
-                //printf ("contains a collider\n");
                 
-                //works
-                
-                
-                //if contains collider we can perform physics actions
-                for (auto& entity : *this->GameEntities)
+                if (a != entity)
                 {
                     
-                    if (a != entity)
+                    // Collision Will ONLY check for bullets tagged items
+                    
+                    if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
                     {
+                        printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
                         
-                        // Collision Will ONLY check for bullets tagged items
-                        
-                        if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
+                        if (a->getName() == "")
                         {
-                            printf ("Collision occured %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
-                            
-                            
                             
                         }
+                        
                     }
                 }
-                
-                
-                
             }
         }
+        
         
     }
     
@@ -166,18 +189,18 @@ bool GameWorldState::render(sf::RenderTarget* target)
 	//background->DrawThis(target);
 	//player->DrawThis(target);
 
-    this->background->DrawThis(target);
+    if (!this->background->DrawThis(target)) {printf ("Failed to draw background\n");}
     
     
-    for (auto &a : *this->GameEntities)
+    for (auto &a : this->GameEntities)
     {
-        a->DrawThis(target);
+        if (!a->DrawThis(target)) {printf ("Failed to draw entity\n");}
     }
     
 	return true;
 }
 
-void GameWorldState::updateInput(float& dt, sf::Event* event)
+void GameWorldState::updateInput(const float& dt, sf::Event* event)
 {
 
     
@@ -193,9 +216,10 @@ void GameWorldState::updateInput(float& dt, sf::Event* event)
     
     //player->runInputUpdate(dt, event);
 
-    for (auto &a : *this->GameEntities)
+    for (auto &a : this->GameEntities)
     {
-        a->runInputUpdate(dt, event);
+        
+        if (!a->runInputUpdate(dt, event)) {printf ("Failed to update entity input\n");}
     }
     
 }
@@ -205,16 +229,16 @@ GameWorldState::~GameWorldState()
     
     // TEST ONLY
     
-    if (this->background != nullptr)
-        delete this->background;
-    if (!this->GameEntities->empty())
+    //if (this->background != nullptr)
+    delete this->background;
+    if (!this->GameEntities.empty())
     {
-        for (auto &a : *this->GameEntities)
+        for (auto &a : this->GameEntities)
         {
             delete a;
         }
-        this->GameEntities->clear();
-        delete this->GameEntities;
+        this->GameEntities.clear();
+        //delete this->GameEntities;
     }
     if (!this->gameResources.empty())
     {

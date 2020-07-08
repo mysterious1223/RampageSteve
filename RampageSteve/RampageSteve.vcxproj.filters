@@ -75,6 +75,12 @@
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="GameMainMenuState.cpp">
+      <Filter>Source Files\Engine\States\MenuItems</Filter>
+    </ClCompile>
+    <ClCompile Include="sfml_gui.cpp">
+      <Filter>Source Files\Engine\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -108,6 +114,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ColliderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMainMenuState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sfml_gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
