@@ -5,6 +5,7 @@
 
 // Base class for all states
 
+class ConfigurationData;
 class Entity;
 class GameState;
 class GameWorldState : public GameState
@@ -12,18 +13,20 @@ class GameWorldState : public GameState
 public:
     
     
-	GameWorldState(std::vector<ConfigurationData*> res);
+	GameWorldState(std::vector<ConfigurationData*> &res);
 
     
 	// main state loop
-	bool update(float&);
+    [[nodiscard]]
+	bool update(const float&);
 
 
 	//Render loop
+    [[nodiscard]]
 	bool render(sf::RenderTarget* target);
 
 	//input update
-	void updateInput(float&, sf::Event*);
+	void updateInput(const float&, sf::Event*);
 
 
 private:
@@ -32,10 +35,13 @@ private:
     //Entity* background = nullptr;
 	//std::vector<ConfigurationData*> gameResources;
 
-    std::vector <Entity*> *GameEntities = nullptr;
+    std::vector <Entity*> GameEntities;
     
     Entity* background = nullptr;
 	~GameWorldState();
+    
+    // sweep for deleted objects
+    void cleanDeletedEntities ();
 };
 
 #endif //// GAMEWORLDSTATE_H
