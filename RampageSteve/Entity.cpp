@@ -4,11 +4,11 @@
 
 #include "Entity.h"
 
-Entity::Entity(ConfigurationData* cf) : sf::Sprite (cf->getResources()->thisTexture)
+Entity::Entity(ConfigurationData* cf) : sf::Sprite (cf->getResources()->thisTexture), _isDead(false)
 {
-    this->name = cf->getName();
+    this->_name = cf->getName();
     
-	this->entity_components = std::vector <Component*>();
+	this->_entity_components = std::vector <Component*>();
 }
 
 bool Entity::AddComponent(Component* comp)
@@ -16,7 +16,7 @@ bool Entity::AddComponent(Component* comp)
 
 	if (comp->init())
 	{
-		this->entity_components.push_back(comp);
+		this->_entity_components.push_back(comp);
 
 		return true;
 	}
@@ -26,7 +26,7 @@ bool Entity::AddComponent(Component* comp)
 
 bool Entity::runInputUpdate (const float& dt,sf::Event* event)
 {
-    for (auto& c : this->entity_components)
+    for (auto& c : this->_entity_components)
     {
         c->updateInput(dt, event);
     }
@@ -38,7 +38,7 @@ bool Entity::runInputUpdate (const float& dt,sf::Event* event)
 bool Entity::runActionsUpdate(const float& dt)
 {
 	
-	for (auto& c : this->entity_components)
+	for (auto& c : this->_entity_components)
 	{
 		c->update(dt);
 	}
@@ -51,7 +51,7 @@ bool Entity::runActionsUpdate(const float& dt)
 bool Entity::DrawThis(sf::RenderTarget* target)
 {
 
-	for (auto& c : this->entity_components)
+	for (auto& c : this->_entity_components)
 	{
 		c->updateRender(target);
 	}
@@ -69,7 +69,7 @@ bool Entity::DrawThis(sf::RenderTarget* target)
 
 const std::vector<Component*> Entity::getComponents() 
 {
-    return this->entity_components;
+    return this->_entity_components;
 }
 // DEPRECIATED
 [[deprecated]]
@@ -131,14 +131,14 @@ Entity::~Entity()
 {
 	// remove the entity vector
 
-	if (!this->entity_components.empty())
+	if (!this->_entity_components.empty())
 	{
-		for (auto& c : this->entity_components)
+		for (auto& c : this->_entity_components)
 		{
 			delete c;
 			
 		}
-		this->entity_components.clear();
+		this->_entity_components.clear();
 	}
 }
 /*

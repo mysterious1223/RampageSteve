@@ -56,7 +56,7 @@ public:
     [[nodiscard]]
     const std::vector<Component*> getComponents ();
     [[nodiscard]]
-    const std::string getName () {return this->name;};
+    const std::string getName () {return this->_name;};
     
     // DEPRECIATED
     [[deprecated]]
@@ -81,27 +81,24 @@ public:
         return false;
     }
     
+    // check if entity is deleted
+    const bool& isEntityDeleted () const {return this->_isDead;}
     
-    /*
-     for (auto obj : a->getComponents())
-     {
-         if (dynamic_cast<ColliderComponent*>(obj))
-         {
-         }
-     }
-     
-     */
+    void setIsDead () {this->_isDead = true;}
     
 private:
 
-	std::vector <Component*> entity_components;
+	std::vector <Component*> _entity_components;
     
-    std::string name;
+    std::string _name;
     
     
     // Only works for integer positions along X or Y cant be used for range attacks. I think
     sf::Vector2f getDirection (const sf::Vector2f&) const;
     
+    
+    // is dead
+    bool _isDead;
     
     //sf::RectangleShape borderRect;
 };

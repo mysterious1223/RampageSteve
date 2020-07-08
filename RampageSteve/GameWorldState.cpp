@@ -13,7 +13,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 	printf("[+] Game World State initialized\n");
 
 
-    this->GameEntities = new std::vector<Entity*>();
+    this->GameEntities = std::vector<Entity*>();
 
     
 	// We will prob have a player selection screen. We should create the functionality without implemenation. We can then use this array
@@ -70,7 +70,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
                 // check if object contains a component
                 //player->checkIfContainsComponent<ColliderComponent>();
                 
-                this->GameEntities->push_back(player);
+                this->GameEntities.push_back(player);
 				// end of test
 			}
             if (x->getEntityType() == EntityType::Enemy)
@@ -87,7 +87,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
                 if (!enemy->AddComponent(phybod)) {printf ("enemy Error loading phy comp\n");}
                 if (!enemy->AddComponent(collider)) {printf ("enemy Error loading coll comp\n");}
                 
-                this->GameEntities->push_back(enemy);
+                this->GameEntities.push_back(enemy);
             }
 		}
 
@@ -103,10 +103,28 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 
 }
 
+void GameWorldState::cleanDeletedEntities ()
+{
+    for (unsigned i = 0; i < this->GameEntities.size(); i ++)
+    {
+        if (this->GameEntities [i]->isEntityDeleted())
+        {
+            Entity *t_ptr = this->GameEntities[i];
+            
+            this->GameEntities.erase(this->GameEntities.begin() + i);
+            
+            delete t_ptr;
+        }
+    }
+    
+}
 
 bool GameWorldState::update(const float& dt)
 {
 
+    // remove deleted entities
+    cleanDeletedEntities ();
+    
 	//player->runActionsUpdate(dt);
 	//background->runActionsUpdate(dt);
     
@@ -117,14 +135,14 @@ bool GameWorldState::update(const float& dt)
     
     
     
-    for (auto &a : *this->GameEntities)
+    for (auto &a : this->GameEntities)
     {
         if (!a->runActionsUpdate(dt)) {printf ("Failed to update entity\n");}
         
         // check if entity contains the collider component
         if (a->checkIfContainsComponent<ColliderComponent>())
         {
-            for (auto& entity : *this->GameEntities)
+            for (auto& entity : this->GameEntities)
             {
                 
                 if (a != entity)
@@ -136,7 +154,10 @@ bool GameWorldState::update(const float& dt)
                     {
                         printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
                         
-                        
+                        if (a->getName() == "")
+                        {
+                            
+                        }
                         
                     }
                 }
@@ -171,7 +192,7 @@ bool GameWorldState::render(sf::RenderTarget* target)
     if (!this->background->DrawThis(target)) {printf ("Failed to draw background\n");}
     
     
-    for (auto &a : *this->GameEntities)
+    for (auto &a : this->GameEntities)
     {
         if (!a->DrawThis(target)) {printf ("Failed to draw entity\n");}
     }
@@ -195,7 +216,7 @@ void GameWorldState::updateInput(const float& dt, sf::Event* event)
     
     //player->runInputUpdate(dt, event);
 
-    for (auto &a : *this->GameEntities)
+    for (auto &a : this->GameEntities)
     {
         
         if (!a->runInputUpdate(dt, event)) {printf ("Failed to update entity input\n");}
@@ -210,14 +231,14 @@ GameWorldState::~GameWorldState()
     
     //if (this->background != nullptr)
     delete this->background;
-    if (!this->GameEntities->empty())
+    if (!this->GameEntities.empty())
     {
-        for (auto &a : *this->GameEntities)
+        for (auto &a : this->GameEntities)
         {
             delete a;
         }
-        this->GameEntities->clear();
-        delete this->GameEntities;
+        this->GameEntities.clear();
+        //delete this->GameEntities;
     }
     if (!this->gameResources.empty())
     {

@@ -35,10 +35,13 @@ private:
     //Entity* background = nullptr;
 	//std::vector<ConfigurationData*> gameResources;
 
-    std::vector <Entity*> *GameEntities = nullptr;
+    std::vector <Entity*> GameEntities;
     
     Entity* background = nullptr;
 	~GameWorldState();
+    
+    // sweep for deleted objects
+    void cleanDeletedEntities ();
 };
 
 #endif //// GAMEWORLDSTATE_H
