@@ -17,10 +17,12 @@ public:
 
     
 	// main state loop
+    [[nodiscard]]
 	bool update(const float&);
 
 
 	//Render loop
+    [[nodiscard]]
 	bool render(sf::RenderTarget* target);
 
 	//input update

@@ -36,7 +36,10 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 				float i = 0;
 				BackgroundScrollingComponent* bck = new BackgroundScrollingComponent(background);
 
-				background->AddComponent(bck);
+				if (!background->AddComponent(bck))
+                {
+                    printf ("Failed!\n");
+                }
                 
                 //this->GameEntities->push_back(background);
                 
@@ -48,7 +51,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 				Entity* player = new Entity(x);
 				player->setPosition(sf::Vector2f(0,0));
 
-
+    
 				// test
 				PhysicsBodyComponent* phybod = new PhysicsBodyComponent(player);
 				//Component* control = new CharacterControllerComponent(player, phybod);
@@ -56,13 +59,16 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
                 // collider
                 ColliderComponent* collider = new ColliderComponent (player, phybod);
                 // RangedCombat
-                RangedCombatComponent* ranged = new RangedCombatComponent (player,control);
+                RangedCombatComponent* ranged = new RangedCombatComponent (player,true);
                 
-				player->AddComponent(control);
-				player->AddComponent(phybod);
-                player->AddComponent(collider);
-                player->AddComponent(ranged);
-                
+                if (!player->AddComponent(control)) {printf ("Player Error loading controller comp\n");}
+                if (!player->AddComponent(phybod)) {printf ("Player Error loading phy comp\n");}
+                if (!player->AddComponent(collider)) {printf ("Player Error loading coll comp\n");}
+                if (!player->AddComponent(ranged)) {printf ("Player Error loading range comp\n");}
+		
+            
+                // check if object contains a component
+                //player->checkIfContainsComponent<ColliderComponent>();
                 
                 this->GameEntities->push_back(player);
 				// end of test
@@ -78,8 +84,8 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
                 
                 
                 
-                enemy->AddComponent(phybod);
-                enemy->AddComponent(collider);
+                if (!enemy->AddComponent(phybod)) {printf ("enemy Error loading phy comp\n");}
+                if (!enemy->AddComponent(collider)) {printf ("enemy Error loading coll comp\n");}
                 
                 this->GameEntities->push_back(enemy);
             }
@@ -107,48 +113,36 @@ bool GameWorldState::update(const float& dt)
     // loop through our vector of game entities
     //
     
-    this->background->runActionsUpdate(dt);
+    if (!this->background->runActionsUpdate(dt)) {printf ("Failed to update background\n");}
     
     
     
     for (auto &a : *this->GameEntities)
     {
-        a->runActionsUpdate(dt);
+        if (!a->runActionsUpdate(dt)) {printf ("Failed to update entity\n");}
         
-        for (auto obj : a->getComponents())
+        // check if entity contains the collider component
+        if (a->checkIfContainsComponent<ColliderComponent>())
         {
-           
-            
-            if (dynamic_cast<ColliderComponent*>(obj))
+            for (auto& entity : *this->GameEntities)
             {
-                //printf ("contains a collider\n");
                 
-                //works
-                
-                
-                //if contains collider we can perform physics actions
-                for (auto& entity : *this->GameEntities)
+                if (a != entity)
                 {
                     
-                    if (a != entity)
+                    // Collision Will ONLY check for bullets tagged items
+                    
+                    if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
                     {
+                        printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
                         
-                        // Collision Will ONLY check for bullets tagged items
                         
-                        if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
-                        {
-                            printf ("Collision occured %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
-                            
-                            
-                            
-                        }
+                        
                     }
                 }
-                
-                
-                
             }
         }
+        
         
     }
     
@@ -174,12 +168,12 @@ bool GameWorldState::render(sf::RenderTarget* target)
 	//background->DrawThis(target);
 	//player->DrawThis(target);
 
-    this->background->DrawThis(target);
+    if (!this->background->DrawThis(target)) {printf ("Failed to draw background\n");}
     
     
     for (auto &a : *this->GameEntities)
     {
-        a->DrawThis(target);
+        if (!a->DrawThis(target)) {printf ("Failed to draw entity\n");}
     }
     
 	return true;
@@ -203,7 +197,8 @@ void GameWorldState::updateInput(const float& dt, sf::Event* event)
 
     for (auto &a : *this->GameEntities)
     {
-        a->runInputUpdate(dt, event);
+        
+        if (!a->runInputUpdate(dt, event)) {printf ("Failed to update entity input\n");}
     }
     
 }

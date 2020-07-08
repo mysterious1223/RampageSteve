@@ -4,7 +4,7 @@
 
 #include "PhysicsBodyComponent.h"
 
-PhysicsBodyComponent::PhysicsBodyComponent(Entity* entity) : Component (entity)
+PhysicsBodyComponent::PhysicsBodyComponent(Entity*& entity) : Component (entity)
 {
     //we need to add a collider component
 }

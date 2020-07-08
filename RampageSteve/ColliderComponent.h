@@ -17,8 +17,8 @@ class PhysicsBodyComponent;
 class ColliderComponent : public Component
 {
 public:
-	ColliderComponent(Entity*, PhysicsBodyComponent*);
-
+	ColliderComponent(Entity*&, PhysicsBodyComponent*);
+    [[nodiscard]]
 	bool init();
 
 	void update(const float& dt);

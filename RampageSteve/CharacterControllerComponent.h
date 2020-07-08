@@ -9,12 +9,12 @@ class CharacterControllerComponent : public Component
 {
 public:
 
-    CharacterControllerComponent(Entity*);
-	CharacterControllerComponent(Entity*, PhysicsBodyComponent* comp);
+    CharacterControllerComponent(Entity*&);
+	CharacterControllerComponent(Entity*&, PhysicsBodyComponent* comp);
 
     // with pyhiscs Component
     // CharacterControllerComponent(Entity*);
-
+    [[nodiscard]]
 	bool init();
 
 	void update(const float& dt);
@@ -34,8 +34,8 @@ private:
     
     bool isSpaceDown = false;
     
-    bool isMouseClicked = false;
-    sf::Vector2f mouseClickedLocation;
+    //bool isMouseClicked = false;
+    //sf::Vector2f mouseClickedLocation;
     
     PhysicsBodyComponent* phyBod = nullptr;
     

@@ -71,6 +71,8 @@ const std::vector<Component*> Entity::getComponents()
 {
     return this->entity_components;
 }
+// DEPRECIATED
+[[deprecated]]
 void Entity::RangedAttack (const sf::Vector2f & mPos){
     // We now have the attack position. We need to translate it to a direction
     
@@ -139,8 +141,21 @@ Entity::~Entity()
 		this->entity_components.clear();
 	}
 }
-
-
+/*
+template <typename T>
+T Entity::checkIfContainsComponent(T val)
+{
+    //for (auto& comp : this->getComponents())
+    //{
+      //  if (dynamic_cast<T>(comp))
+        //{
+          //  return true;
+        //}
+    //}
+    //return false;
+    return nullptr;
+}
+*/
 /*
  GetDirection(cocos2d::Vec2 endPoint)
  {

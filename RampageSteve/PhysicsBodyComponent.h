@@ -7,11 +7,11 @@
 class PhysicsBodyComponent : public Component
 {
 public:
-	PhysicsBodyComponent(Entity*);
+	PhysicsBodyComponent(Entity*&);
 
 	// with pyhiscs Component
 	// CharacterControllerComponent(Entity*);
-
+    [[nodiscard]]
 	bool init();
 
 	void update(const float& dt);
@@ -22,17 +22,21 @@ public:
 
 
 	// triggers
+    [[nodiscard]]
 	bool triggerJump();
 
 
 	// Move right
+    [[nodiscard]]
 	bool moveRight();
 
 	// Move left
+    [[nodiscard]]
 	bool moveLeft();
 
 
 	// Stop Horizonal movement
+    [[nodiscard]]
 	bool moveStop(const float& dt);
 
 

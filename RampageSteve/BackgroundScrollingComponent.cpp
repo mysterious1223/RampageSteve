@@ -6,7 +6,7 @@
 #include "BackgroundScrollingComponent.h"
 
 
-BackgroundScrollingComponent::BackgroundScrollingComponent(Entity* entity) : Component(entity)
+BackgroundScrollingComponent::BackgroundScrollingComponent(Entity*& entity) : Component(entity)
 {
 
 
@@ -87,7 +87,7 @@ void BackgroundScrollingComponent::updateInput(const float& dt, sf::Event*)
 
 void BackgroundScrollingComponent::updateRender(sf::RenderTarget* target)
 {
-    this->childInstance->DrawThis(target);
+    if (!this->childInstance->DrawThis(target)) {printf ("Failed to draw Background");}
 }
 
 BackgroundScrollingComponent::~BackgroundScrollingComponent()

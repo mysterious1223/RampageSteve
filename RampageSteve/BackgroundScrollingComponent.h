@@ -7,8 +7,8 @@ class Component;
 class BackgroundScrollingComponent : public Component
 {
 public:
-	BackgroundScrollingComponent(Entity*);
-
+	BackgroundScrollingComponent(Entity*&);
+    [[nodiscard]]
 	bool init();
 
 	void update(const float& dt);

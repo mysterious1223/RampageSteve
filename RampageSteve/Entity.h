@@ -26,10 +26,11 @@ enum class EntityType {
 
 };
 
-// Should this be a virtual class?
 class Entity : public sf::Sprite
 {
 public:
+    
+    
 	Entity(ConfigurationData* cf);
     Entity () {};
 
@@ -37,27 +38,59 @@ public:
 	~Entity();
 
 	// Ability to add components (configured in here)
+    [[nodiscard]]
 	bool AddComponent(Component*);
 
 
 
-    
+    [[nodiscard]]
     bool runInputUpdate (const float& dt,sf::Event*);
     
 	
 	// maybe a run actions call to use components? [Overridable] - make this automatically call component updates?
+    [[nodiscard]]
 	bool runActionsUpdate(const float& dt);
-    
+    [[nodiscard]]
 	bool DrawThis(sf::RenderTarget*);
   
-
+    [[nodiscard]]
     const std::vector<Component*> getComponents ();
-    
+    [[nodiscard]]
     const std::string getName () {return this->name;};
     
-    
+    // DEPRECIATED
+    [[deprecated]]
     void RangedAttack (const sf::Vector2f &);
     
+    //[[nodiscard]] // check if component exist WE WILL NEED TEMPATING
+    template <typename T>
+    [[nodiscard]] 
+    inline const bool checkIfContainsComponent(){
+        
+        for (auto& comp : this->getComponents())
+        {
+            // get components holds pointers
+            if (dynamic_cast<T*>(comp))
+            {
+                
+                return true;
+            }
+            
+        }
+       
+        return false;
+    }
+    
+    
+    /*
+     for (auto obj : a->getComponents())
+     {
+         if (dynamic_cast<ColliderComponent*>(obj))
+         {
+         }
+     }
+     
+     */
     
 private:
 

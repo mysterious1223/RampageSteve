@@ -37,9 +37,13 @@ public:
 
 
 	// get values
+    [[nodiscard]]
 	EntityType getEntityType() const { return entityType; }
+    [[nodiscard]]
 	ObjectType getObjectType() const { return objectType; };
+    [[nodiscard]]
 	Resource* getResources() const { return resources; };
+    [[nodiscard]]
 	std::string getName() const { return entityName; };
 
 
@@ -71,16 +75,18 @@ class ResourceLoader
 public:
     // Will probably be updated soon. Load texture and return a resource
     // we will return a Array of resource soon based on a configuration file
+    [[nodiscard]]
 	std::vector<ConfigurationData*> loadEntityResourceConfig(std::string filepath);
 
-
+    [[nodiscard]]
 	ConfigurationData* createEntityConfig(std::string configData);
 
 
 
 private:
-
+    [[nodiscard]]
 	EntityType getEntityTypeFromToken(const std::string &);
+    [[nodiscard]]
 	ObjectType getObjectTypeFromToken(const std::string &);
 
 
@@ -88,9 +94,13 @@ private:
 
 	// we need to make sure the resource can actually be located
 	// if cant locate anything return false and set resource to null
+    [[nodiscard]]
 	bool CreateResourceStaticImage(Resource&,const std::string&);
+    [[nodiscard]]
 	bool CreateResourceSpriteSheet(Resource&, std::string);
+    [[nodiscard]]
 	bool CreateResourceAudio(Resource&, std::string);
+    [[nodiscard]]
 	bool CreateResourceEffect(Resource&, std::string);
 };
 

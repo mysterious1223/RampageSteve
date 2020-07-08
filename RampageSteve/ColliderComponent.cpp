@@ -5,7 +5,7 @@
 #include "ColliderComponent.h"
 
 
-ColliderComponent::ColliderComponent (Entity* entity, PhysicsBodyComponent* phy) : Component(entity)
+ColliderComponent::ColliderComponent (Entity*& entity, PhysicsBodyComponent* phy) : Component(entity)
 {
     //empty for now
 }

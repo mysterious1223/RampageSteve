@@ -9,7 +9,7 @@ class Component
 {
 public:
 	// take in component type
-    Component(Entity* entity) {thisEntity = entity;};
+    Component(Entity*& entity) {thisEntity = entity;};
 
     // When component is added to an entity this is automatically called
 	virtual bool init() = 0;

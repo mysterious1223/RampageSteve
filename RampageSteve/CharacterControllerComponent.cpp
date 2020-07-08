@@ -4,13 +4,13 @@
 
 #include "CharacterControllerComponent.h"
 
-CharacterControllerComponent::CharacterControllerComponent(Entity* entity) : Component (entity), mouseClickedLocation {}
+CharacterControllerComponent::CharacterControllerComponent(Entity*& entity) : Component (entity)
 {
     // Maybe this should also take in the physics component?
   
 }
 
-CharacterControllerComponent::CharacterControllerComponent(Entity* entity, PhysicsBodyComponent* comp) : Component(entity)
+CharacterControllerComponent::CharacterControllerComponent(Entity*& entity, PhysicsBodyComponent* comp) : Component(entity)
 {
     // for objects with physics
     phyBod = comp;
@@ -19,33 +19,35 @@ CharacterControllerComponent::CharacterControllerComponent(Entity* entity, Physi
 
 bool CharacterControllerComponent::init()
 {
-
-
 	return true;
 }
 
 void CharacterControllerComponent::update(const float& dt)
 {
     
-    
-    if (this->isMouseClicked)
-    {
+    // combat componenets should be controlled by themselves
+    //if (this->isMouseClicked)
+    //{
         // trigger the attack
-        this->thisEntity->RangedAttack(this->mouseClickedLocation);
+        // maybe change this so that it triggers ranged attacks?
+        // Not sure how we should do this
+        //this->thisEntity->RangedAttack(this->mouseClickedLocation);
         
-    }
+    //}
     
     if (this->isSpaceDown)
     {
-        this->phyBod->triggerJump();
+        if (!this->phyBod->triggerJump()) {printf ("Failed to trigger jump\n");}
     }
     if (this->isDDown)
     {
-        this->phyBod->moveRight();
+        if (!this->phyBod->moveRight()) {printf ("Failed to trigger move right\n");}
+        
     }
     if (this->isADown)
     {
-        this->phyBod->moveLeft();
+        if (!this->phyBod->moveLeft()) {printf ("Failed to trigger move left\n");}
+       
     }
     
 
@@ -53,7 +55,9 @@ void CharacterControllerComponent::update(const float& dt)
     
     if (!this->isADown && !this->isDDown)
     {
-        this->phyBod->moveStop(dt);
+        if (!this->phyBod->moveStop(dt)) {printf ("Failed to stop\n");}
+        
+     
     }
 }
 void CharacterControllerComponent::updateInput (const float& dt, sf::Event* event)
@@ -64,7 +68,7 @@ void CharacterControllerComponent::updateInput (const float& dt, sf::Event* even
      a pointer for this object will link it to attack
      
      */
-    
+    /*
     if (event->type == sf::Event::MouseButtonPressed)
     {
         //float mX = (float) event->mouseButton.x;
@@ -81,7 +85,7 @@ void CharacterControllerComponent::updateInput (const float& dt, sf::Event* even
         
         this->isMouseClicked = false;
     }
-    
+    */
     
     if (event->type == sf::Event::KeyPressed)
     {
