@@ -4,11 +4,11 @@
 
 #include "Entity.h"
 
-Entity::Entity(ConfigurationData*& cf) : sf::Sprite (cf->getResources()->thisTexture), _isDead(false), _thisConfig (cf)
+Entity::Entity(ConfigurationData*& cf) : sf::Sprite (cf->getResources()->thisTexture), _isDead(false), _thisConfig (cf), _entity_components(std::vector<Component*>()), _name(cf->getName())
 {
-    this->_name = cf->getName();
+    //this->_name = cf->getName();
     
-	this->_entity_components = std::vector <Component*>();
+	//this->_entity_components = std::vector <Component*>();
 }
 
 bool Entity::AddComponent(Component* comp)
@@ -133,9 +133,20 @@ sf::Vector2f Entity::getDirection (const sf::Vector2f& end_position) const
     
     
 }
+// DOES NOT DELETE POINTERS DONT USE THIS Unless instantiation is taking place
+void Entity::clearComponents (){
+    if (!this->_entity_components.empty())
+    {
+        
+        this->_entity_components.clear();
+    }
+    
+}
 
 Entity::~Entity()
 {
+    printf ("[-] Destruction called on %p\n", this);
+    
 	// remove the entity vector
 
 	if (!this->_entity_components.empty())

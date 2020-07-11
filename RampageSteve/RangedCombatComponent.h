@@ -58,7 +58,18 @@ private:
     std::vector<Entity*> _projectiles;
     std::vector<Entity*> &_entities;
     
-    bool test = false;
+    //const unsigned _MAX_BULLETS_ = 1;
+    
+    //unsigned _curr_bullets;
+    
+    // timeout clock
+    //sf::Clock _timer;
+    // timing out
+    //bool _isTimeout;
+    // timeout time
+    //const float _timeoutTime = .1;
+    
+    bool _fired = false;
 };
 
 

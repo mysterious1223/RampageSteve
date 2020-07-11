@@ -5,7 +5,7 @@
 #include "RangedCombatComponent.h"
 
 
-RangedCombatComponent::RangedCombatComponent (Entity*& entity,std::vector<Entity*>& entityList, const bool& isControllable) : Component(entity), _isMouseClicked(false),_entities (entityList),
+RangedCombatComponent::RangedCombatComponent (Entity*& entity,std::vector<Entity*>& entityList, const bool& isControllable) : Component(entity), _isMouseClicked(false),_entities (entityList),// _curr_bullets (0), _isTimeout(false),
 _mouseClickedLocation(sf::Vector2f())
 {
     // member to check if this is a controlled object
@@ -27,21 +27,34 @@ Entity* RangedCombatComponent::instantiate_Projectile (const sf::Vector2f& toPos
     Entity *inst_projectile = new Entity;
     *inst_projectile = *this->_projectiles [0];
     
+    inst_projectile->clearComponents();
+    
+    inst_projectile->setPosition(this->thisEntity->getPosition());
+    
+    
+    
+    
     // need need projectile to move to position. So we need to retireve the ProectileObject
-
-    ProjectileComponent* entityProjectile = dynamic_cast<ProjectileComponent*>(inst_projectile->GetComponent<ProjectileComponent>());
+    ProjectileComponent * entityProjectile = new ProjectileComponent (inst_projectile, 700);
+    if (!inst_projectile->AddComponent(entityProjectile)) {printf ("Ranged projectile comp failed\n");}
     
     
-    if (entityProjectile == nullptr)
-        return nullptr;
+    // we NEED TO COPY PROJECTILE COMPONENT
+    
+    //ProjectileComponent* entityProjectile = dynamic_cast<ProjectileComponent*>(inst_projectile->GetComponent<ProjectileComponent>());
+    
+    
+    //if (entityProjectile == nullptr)
+      //  return nullptr;
     
     // change ownership to this instance, Why the fuck?
-    entityProjectile->changeOwnership(inst_projectile);
+    //entityProjectile->changeOwnership(inst_projectile);
     
-    if (!entityProjectile->setTargetPosition(toPos)) {}
+    if (!entityProjectile->setTargetPosition(toPos, this->thisEntity->getPosition())) {}
     
     
 
+    //this->_curr_bullets ++;
     return inst_projectile;
     
 }
@@ -60,20 +73,35 @@ void RangedCombatComponent::update(const float& dt)
         // second we can either track how far it is from our player or how much time has elapsed
         // third if player spams we can store bullets in a buffer if buffer max is reached player can fire any more
         
-        if (!this->test)
+        if (!this->_fired )// && this->_curr_bullets < this->_MAX_BULLETS_)
         {
             
             Entity* tempEntity = instantiate_Projectile(this->_mouseClickedLocation);
             
             this->_entities.push_back(tempEntity);
-        
-            
-
             
             //printf ("size %d\n", this->_entities.size());
-            
-            this->test = true;
+            this->_fired = true;
         }
+        /*
+        else if (this->_isTimeout)
+        {
+            // in timeout mode
+            if (this->_timer.getElapsedTime().asSeconds() >= this->_timeoutTime)
+            {
+                //reset
+                this->_isTimeout = false;
+                this->_curr_bullets = 0;
+                
+            }
+        }
+        else
+        {
+            // we need to time out
+            this->_isTimeout = true;
+            this->_timer.restart();
+        }
+         */
     }
     
     
@@ -99,6 +127,7 @@ void RangedCombatComponent::updateInput (const float& dt, sf::Event* event)
             
             
             this->_isMouseClicked = false;
+            this->_fired = false;
         }
         
     }
@@ -138,5 +167,11 @@ bool RangedCombatComponent::addProjectiles (const std::vector <Entity*>& project
 }
 RangedCombatComponent::~RangedCombatComponent()
 {
-   
+    if (!this->_projectiles.empty())
+    {
+        for (auto &a : this->_projectiles)
+        {
+            delete a;
+        }
+    }
 }

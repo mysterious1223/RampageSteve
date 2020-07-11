@@ -105,7 +105,8 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
                 
                 Entity *projectile = new Entity(x);
                 //projectile->setPosition(sf::Vector2f(0,0));
-                ProjectileComponent* proj_comp = new ProjectileComponent(projectile);
+                // a dummy projectile
+                ProjectileComponent* proj_comp = new ProjectileComponent(projectile, 0.0f);
                 //PhysicsBodyComponent* phybod = new PhysicsBodyComponent(projectile);
                 //ColliderComponent* collider = new ColliderComponent (projectile, phybod);
                 
@@ -175,7 +176,7 @@ bool GameWorldState::init (){
         printf ("No projectiles found...\n");
     }
     
-    
+    printf ("[+] init game complete\n");
     return true;
 }
 void GameWorldState::cleanDeletedEntities ()
@@ -211,53 +212,51 @@ bool GameWorldState::update(const float& dt)
     if (!this->background->runActionsUpdate(dt)) {printf ("Failed to update background\n");}
     
     
-    
-    for (auto &a : this->_gameEntities)
+    if (!this->_gameEntities.empty())
     {
-       
-        if (a->checkIfContainsComponent<ProjectileComponent>())
+        for (auto &a : this->_gameEntities)
         {
-            printf ("Object contains projectile : %p : %f, %f \n", a,a->getPosition().x, a->getPosition().y);
-        }
-        
-        // bugged call
-        if (!a->runActionsUpdate(dt)) {printf ("Failed to update entity\n");}
-        
-        // check if entity contains the collider component
-        if (a->checkIfContainsComponent<ColliderComponent>())
-        {
-             
+           
+            printf ("error? %p \n", a);
             
-            for (auto& entity : this->_gameEntities)
+            // bugged call
+            if (!a->runActionsUpdate(dt)) {printf ("Failed to update entity\n");}
+            
+            // check if entity contains the collider component
+            if (a->checkIfContainsComponent<ColliderComponent>())
             {
-                // both must have collider
-                if (entity->checkIfContainsComponent<ColliderComponent>())
+                 
+                
+                for (auto& entity : this->_gameEntities)
                 {
-                    if (a != entity)
+                    // both must have collider
+                    if (entity->checkIfContainsComponent<ColliderComponent>())
                     {
-                        
-                            // Collision Will ONLY check for bullets tagged items
-                            // there is a bug here that needs to be fixed
-                            if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
-                            {
-                                printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
-                                
-                                
-                                
-                            }
+                        if (a != entity && a != NULL)
+                        {
+                            
+                                // Collision Will ONLY check for bullets tagged items
+                                // there is a bug here that needs to be fixed
+                                if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
+                                {
+                                    printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
+                                    
+                                    
+                                    
+                                }
+                        }
                     }
                 }
             }
+            
+            
         }
-        
-        
     }
     
     
     // We will check if has collider then check ? idk
     
-    
-    
+
  
 	return true;
 }

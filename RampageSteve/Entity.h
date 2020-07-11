@@ -32,6 +32,8 @@ class Entity : public sf::Sprite
 public:
     
     
+    // we need a copy constructor for this?
+    
 	Entity(ConfigurationData*& cf);
     Entity () {};
 
@@ -71,7 +73,7 @@ public:
         for (auto& comp : this->getComponents())
         {
             // get components holds pointers
-            if (dynamic_cast<T*>(comp))
+            if (dynamic_cast<T*>(comp) != nullptr)
             {
                 
                 return true;
@@ -88,7 +90,7 @@ public:
         for (auto& comp : this->getComponents())
         {
             // get components holds pointers
-            if (dynamic_cast<T*>(comp))
+            if (dynamic_cast<T*>(comp) != nullptr)
             {
                 
                 return comp;
@@ -98,6 +100,8 @@ public:
        
         return nullptr;
     }
+    // DOES NOT DELETE POINTERS DONT USE THIS Unless instantiation is taking place
+    void clearComponents ();
     
     // check if entity is deleted
     const bool& isEntityDeleted () const {return this->_isDead;}

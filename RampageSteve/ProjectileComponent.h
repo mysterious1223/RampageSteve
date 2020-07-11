@@ -23,7 +23,7 @@ class Component;
 class ProjectileComponent : public Component
 {
 public:
-	ProjectileComponent(Entity*&);
+	ProjectileComponent(Entity*&, const float&);
     [[nodiscard]]
 	bool init();
 
@@ -37,14 +37,28 @@ public:
     
 private:
     // set target position
-    [[nodiscard]]
-    bool setTargetPosition (const sf::Vector2f&);
+    [[nodiscard]] // target , current
+    bool setTargetPosition (const sf::Vector2f&, const sf::Vector2f&);
+    
+    // move entity to position
+    void moveToTarget (const float& dt);
     
     // target
     sf::Vector2f _targetPos;
+    sf::Vector2f _initPos;
+    sf::Vector2f _targetDiff;
     
     // isTarget set
     bool _isTargetSet;
+    
+    // speed
+    float _speed;
+    
+    // duration clock
+    sf::Clock _timer;
+    
+    // max duration
+    float _max_dur;
     
     //friend
     friend class RangedCombatComponent;
