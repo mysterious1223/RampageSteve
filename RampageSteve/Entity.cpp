@@ -4,7 +4,7 @@
 
 #include "Entity.h"
 
-Entity::Entity(ConfigurationData* cf) : sf::Sprite (cf->getResources()->thisTexture), _isDead(false)
+Entity::Entity(ConfigurationData*& cf) : sf::Sprite (cf->getResources()->thisTexture), _isDead(false), _thisConfig (cf)
 {
     this->_name = cf->getName();
     
@@ -26,11 +26,13 @@ bool Entity::AddComponent(Component* comp)
 
 bool Entity::runInputUpdate (const float& dt,sf::Event* event)
 {
-    for (auto& c : this->_entity_components)
+    if (!this->_entity_components.empty())
     {
-        c->updateInput(dt, event);
+        for (auto& c : this->_entity_components)
+        {
+            c->updateInput(dt, event);
+        }
     }
-
 
 	return true;
 }
@@ -38,11 +40,14 @@ bool Entity::runInputUpdate (const float& dt,sf::Event* event)
 bool Entity::runActionsUpdate(const float& dt)
 {
 	
-	for (auto& c : this->_entity_components)
-	{
-		c->update(dt);
-	}
-
+    if (!this->_entity_components.empty())
+    {
+        for (auto& c : this->_entity_components)
+        {
+          
+            c->update(dt);
+        }
+    }
 
 
 	return true;
@@ -51,12 +56,14 @@ bool Entity::runActionsUpdate(const float& dt)
 bool Entity::DrawThis(sf::RenderTarget* target)
 {
 
-	for (auto& c : this->_entity_components)
-	{
-		c->updateRender(target);
-	}
+    if (!this->_entity_components.empty())
+    {
+        for (auto& c : this->_entity_components)
+        {
+            c->updateRender(target);
+        }
 
-
+    }
 
 
 	target->draw(*this);

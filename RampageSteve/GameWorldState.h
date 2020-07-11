@@ -8,6 +8,14 @@
 class ConfigurationData;
 class Entity;
 class GameState;
+
+// holder for child and parent entity, Will be used later when we add projectiles to enemy
+typedef struct {
+    Entity* projectile;
+    Entity* parentEntity;
+} Relationship_container_;
+
+
 class GameWorldState : public GameState
 {
 public:
@@ -15,6 +23,8 @@ public:
     
 	GameWorldState(std::vector<ConfigurationData*> &res);
 
+    [[nodiscard]]
+    bool init ();
     
 	// main state loop
     [[nodiscard]]
@@ -35,7 +45,8 @@ private:
     //Entity* background = nullptr;
 	//std::vector<ConfigurationData*> gameResources;
 
-    std::vector <Entity*> GameEntities;
+    std::vector <Entity*> _gameEntities;
+    std::vector <Entity*> _projectiles;
     
     Entity* background = nullptr;
 	~GameWorldState();

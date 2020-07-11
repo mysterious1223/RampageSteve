@@ -13,7 +13,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 	printf("[+] Game World State initialized\n");
 
 
-    this->GameEntities = std::vector<Entity*>();
+    this->_gameEntities = std::vector<Entity*>();
 
     
 	// We will prob have a player selection screen. We should create the functionality without implemenation. We can then use this array
@@ -48,6 +48,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 			if (x->getEntityType() == EntityType::Player)
 			{
 				// player config
+                //std::unique_ptr <Entity> player(new Entity (x));
 				Entity* player = new Entity(x);
 				player->setPosition(sf::Vector2f(0,0));
 
@@ -58,8 +59,8 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 				CharacterControllerComponent* control = new CharacterControllerComponent(player, phybod);
                 // collider
                 ColliderComponent* collider = new ColliderComponent (player, phybod);
-                // RangedCombat
-                RangedCombatComponent* ranged = new RangedCombatComponent (player,true);
+                // RangedCombat This will need to be added later
+                RangedCombatComponent* ranged = new RangedCombatComponent (player,this->_gameEntities,true);
                 
                 if (!player->AddComponent(control)) {printf ("Player Error loading controller comp\n");}
                 if (!player->AddComponent(phybod)) {printf ("Player Error loading phy comp\n");}
@@ -70,7 +71,10 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
                 // check if object contains a component
                 //player->checkIfContainsComponent<ColliderComponent>();
                 
-                this->GameEntities.push_back(player);
+              
+                
+                
+                this->_gameEntities.push_back(player);
 				// end of test
 			}
             if (x->getEntityType() == EntityType::Enemy)
@@ -87,7 +91,39 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
                 if (!enemy->AddComponent(phybod)) {printf ("enemy Error loading phy comp\n");}
                 if (!enemy->AddComponent(collider)) {printf ("enemy Error loading coll comp\n");}
                 
-                this->GameEntities.push_back(enemy);
+                this->_gameEntities.push_back(enemy);
+            }
+            // Projectile set up
+            if (x->getEntityType() == EntityType::Projectile)
+            {
+                // We will need to pass by ref our vector of game entities into Ranged
+                // How can we do this? We will need to load all the resources then allocate player, then other items?
+                // seperate config? no
+                // We can store projectiles in there own array. Later in the init we can place projectile into our player range component
+                // add to projectile list
+                
+                
+                Entity *projectile = new Entity(x);
+                //projectile->setPosition(sf::Vector2f(0,0));
+                ProjectileComponent* proj_comp = new ProjectileComponent(projectile);
+                //PhysicsBodyComponent* phybod = new PhysicsBodyComponent(projectile);
+                //ColliderComponent* collider = new ColliderComponent (projectile, phybod);
+                
+                if(!projectile->AddComponent(proj_comp)){printf ("Projectile failed to be added\n");}
+                //if(!projectile->AddComponent(phybod)){printf ("PHY failed to be added\n");}
+                //if(!projectile->AddComponent(collider)){printf ("COLL failed to be added\n");}
+                
+                this->_projectiles.push_back(projectile); // this works for now, but what about enemies? they all share the same projectile? Create temp list. We can call init player? then include this? init enemies include this?
+                // In init or something we will need to load projectile into ranged?
+                // later we can select the different projectile types
+                // We will need to add test items to the list
+                
+                
+                // todo
+                // in init or seperate function we will need to add the projectile list to ranged component, depending on
+                // what object they belong to.
+                
+                
             }
 		}
 
@@ -99,19 +135,58 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
 	}
 
 
-
+    if (!init())
+    {
+        this->isEnd = true;
+    }
+    
 
 }
-
+bool GameWorldState::init (){
+    
+    // init
+    // load projectiles into player?
+    
+    if (!this->_projectiles.empty())
+    {
+    
+        for (auto& obj : this->_gameEntities)
+        {
+            if (obj->_thisConfig->getEntityType() == EntityType::Player)
+            {
+                // this is player we only need to load projectiles into this object
+                RangedCombatComponent* rngTemp = static_cast<RangedCombatComponent*>(obj->GetComponent<RangedCombatComponent>());
+                
+                if (rngTemp != nullptr)
+                {
+                    printf ("Loaded range combat component\n");
+                    
+                    if(!rngTemp->addProjectiles(this->_projectiles)){printf ("Error importing projectiles\n");}
+                    
+                }
+                else{
+                    printf ("Failed to load ranged combat component for configuration\n");
+                }
+            }
+        }
+    }
+    else
+    {
+        printf ("No projectiles found...\n");
+    }
+    
+    
+    return true;
+}
 void GameWorldState::cleanDeletedEntities ()
 {
-    for (unsigned i = 0; i < this->GameEntities.size(); i ++)
+    for (unsigned i = 0; i < this->_gameEntities.size(); i ++)
     {
-        if (this->GameEntities [i]->isEntityDeleted())
+        if (this->_gameEntities [i]->isEntityDeleted())
         {
-            Entity *t_ptr = this->GameEntities[i];
+            Entity *t_ptr = this->_gameEntities[i];
             
-            this->GameEntities.erase(this->GameEntities.begin() + i);
+            this->_gameEntities.erase(this->_gameEntities.begin() + i);
             
             delete t_ptr;
         }
@@ -121,6 +196,8 @@ void GameWorldState::cleanDeletedEntities ()
 
 bool GameWorldState::update(const float& dt)
 {
+    
+    //printf ("%d\n", this->_gameEntities.size());
 
     // remove deleted entities
     cleanDeletedEntities ();
@@ -135,27 +212,34 @@ bool GameWorldState::update(const float& dt)
     
     
     
-    for (auto &a : this->GameEntities)
+    for (auto &a : this->_gameEntities)
     {
+       
+        // bugged call
         if (!a->runActionsUpdate(dt)) {printf ("Failed to update entity\n");}
         
         // check if entity contains the collider component
         if (a->checkIfContainsComponent<ColliderComponent>())
         {
-            for (auto& entity : this->GameEntities)
+             
+            
+            for (auto& entity : this->_gameEntities)
             {
-                
-                if (a != entity)
+                // both must have collider
+                if (entity->checkIfContainsComponent<ColliderComponent>())
                 {
-                    
-                    // Collision Will ONLY check for bullets tagged items
-                    
-                    if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
+                    if (a != entity)
                     {
-                        printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
                         
-                        
-                        
+                            // Collision Will ONLY check for bullets tagged items
+                            // there is a bug here that needs to be fixed
+                            if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
+                            {
+                                printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
+                                
+                                
+                                
+                            }
                     }
                 }
             }
@@ -189,7 +273,7 @@ bool GameWorldState::render(sf::RenderTarget* target)
     if (!this->background->DrawThis(target)) {printf ("Failed to draw background\n");}
     
     
-    for (auto &a : this->GameEntities)
+    for (auto &a : this->_gameEntities)
     {
         if (!a->DrawThis(target)) {printf ("Failed to draw entity\n");}
     }
@@ -213,7 +297,7 @@ void GameWorldState::updateInput(const float& dt, sf::Event* event)
     
     //player->runInputUpdate(dt, event);
 
-    for (auto &a : this->GameEntities)
+    for (auto &a : this->_gameEntities)
     {
         
         if (!a->runInputUpdate(dt, event)) {printf ("Failed to update entity input\n");}
@@ -228,13 +312,22 @@ GameWorldState::~GameWorldState()
     
     //if (this->background != nullptr)
     delete this->background;
-    if (!this->GameEntities.empty())
+    if (!this->_gameEntities.empty())
     {
-        for (auto &a : this->GameEntities)
+        for (auto &a : this->_gameEntities)
         {
             delete a;
         }
-        this->GameEntities.clear();
+        this->_gameEntities.clear();
+        //delete this->GameEntities;
+    }
+    if (!this->_projectiles.empty())
+    {
+        for (auto &a : this->_projectiles)
+        {
+            delete a;
+        }
+        this->_projectiles.clear();
         //delete this->GameEntities;
     }
     if (!this->gameResources.empty())

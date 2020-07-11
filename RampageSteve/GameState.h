@@ -12,7 +12,7 @@ public:
 
 	GameState(std::vector<ConfigurationData*>&);
 
-
+    
 
 	// main state loop
 	virtual bool update(const float&) = 0;

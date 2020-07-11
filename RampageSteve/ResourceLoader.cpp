@@ -241,6 +241,8 @@ EntityType ResourceLoader::getEntityTypeFromToken(const std::string &typ)
 	EntityType etype = EntityType::None;
 
 
+    // make modular
+    
 	if (typ == "Player")
 	{
 		etype = EntityType::Player;
@@ -264,6 +266,10 @@ EntityType ResourceLoader::getEntityTypeFromToken(const std::string &typ)
     if (typ == "UI_Image")
     {
         etype = EntityType::UI_Image;
+    }
+    if (typ == "Projectile")
+    {
+        etype = EntityType::Projectile;
     }
     /*
      Player,

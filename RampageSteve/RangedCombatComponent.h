@@ -24,7 +24,7 @@ class CharacterControllerComponent;
 class RangedCombatComponent : public Component
 {
 public:
-	RangedCombatComponent(Entity*&, const bool& isControllable = false);
+	RangedCombatComponent(Entity*&,std::vector<Entity*>&, const bool& isControllable = false);
     [[nodiscard]]
 	bool init();
 
@@ -35,11 +35,19 @@ public:
 	void updateRender(sf::RenderTarget* target);
     [[nodiscard]] // we need to check if the entity provided contains a Projectile component
     bool addProjectile (Entity*&);
-
+    [[nodiscard]]
+    bool addProjectiles (const std::vector <Entity*>&);
+    
+    [[nodiscard]]
+    inline const unsigned getProjectileCount () const {return _projectiles.size();}
+    
 	~RangedCombatComponent();
 private:
     
     // Projectile list? Inherits entity?
+    
+    Entity* instantiate_Projectile (const sf::Vector2f&);
+    
     
     bool _isControllable;
     sf::Vector2f _mouseClickedLocation;
@@ -48,6 +56,9 @@ private:
     
     // list of projectiles
     std::vector<Entity*> _projectiles;
+    std::vector<Entity*> &_entities;
+    
+    bool test = false;
 };
 
 

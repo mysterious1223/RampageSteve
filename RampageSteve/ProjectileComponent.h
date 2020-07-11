@@ -18,7 +18,7 @@
 #include "Globals.h"
 
 
-
+// This will be inherited by a bullet or etc? in the future we can do that. For now we only need one kind of projectile
 class Component;
 class ProjectileComponent : public Component
 {

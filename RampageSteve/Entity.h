@@ -22,6 +22,7 @@ enum class EntityType {
 	Platform,
     StaticBackground,
     UI_Image,
+    Projectile,
 	None
 
 };
@@ -31,7 +32,7 @@ class Entity : public sf::Sprite
 public:
     
     
-	Entity(ConfigurationData* cf);
+	Entity(ConfigurationData*& cf);
     Entity () {};
 
 
@@ -80,6 +81,23 @@ public:
        
         return false;
     }
+    template <typename T>
+    [[nodiscard]]
+    inline Component* GetComponent(){
+        
+        for (auto& comp : this->getComponents())
+        {
+            // get components holds pointers
+            if (dynamic_cast<T*>(comp))
+            {
+                
+                return comp;
+            }
+            
+        }
+       
+        return nullptr;
+    }
     
     // check if entity is deleted
     const bool& isEntityDeleted () const {return this->_isDead;}
@@ -96,11 +114,15 @@ private:
     // Only works for integer positions along X or Y cant be used for range attacks. I think
     sf::Vector2f getDirection (const sf::Vector2f&) const;
     
+    //config
+    ConfigurationData* _thisConfig;
+    
     
     // is dead
     bool _isDead;
     
     //sf::RectangleShape borderRect;
+    friend class GameWorldState;
 };
 
 #endif //ENTITY_H
