@@ -34,8 +34,20 @@ public:
 	void updateRender(sf::RenderTarget* target);
 
 	~ProjectileComponent();
-private:
     
+private:
+    // set target position
+    [[nodiscard]]
+    bool setTargetPosition (const sf::Vector2f&);
+    
+    // target
+    sf::Vector2f _targetPos;
+    
+    // isTarget set
+    bool _isTargetSet;
+    
+    //friend
+    friend class RangedCombatComponent;
     
 };
 

@@ -27,7 +27,18 @@ Entity* RangedCombatComponent::instantiate_Projectile (const sf::Vector2f& toPos
     Entity *inst_projectile = new Entity;
     *inst_projectile = *this->_projectiles [0];
     
+    // need need projectile to move to position. So we need to retireve the ProectileObject
+
+    ProjectileComponent* entityProjectile = dynamic_cast<ProjectileComponent*>(inst_projectile->GetComponent<ProjectileComponent>());
     
+    
+    if (entityProjectile == nullptr)
+        return nullptr;
+    
+    // change ownership to this instance, Why the fuck?
+    entityProjectile->changeOwnership(inst_projectile);
+    
+    if (!entityProjectile->setTargetPosition(toPos)) {}
     
     
 
@@ -51,15 +62,21 @@ void RangedCombatComponent::update(const float& dt)
         
         if (!this->test)
         {
-            this->_entities.push_back(instantiate_Projectile(this->_mouseClickedLocation));
+            
+            Entity* tempEntity = instantiate_Projectile(this->_mouseClickedLocation);
+            
+            this->_entities.push_back(tempEntity);
         
             
+
             
-            printf ("size %d\n", this->_entities.size());
+            //printf ("size %d\n", this->_entities.size());
             
             this->test = true;
         }
     }
+    
+    
     
 }
 void RangedCombatComponent::updateInput (const float& dt, sf::Event* event)
@@ -121,5 +138,5 @@ bool RangedCombatComponent::addProjectiles (const std::vector <Entity*>& project
 }
 RangedCombatComponent::~RangedCombatComponent()
 {
-    
+   
 }

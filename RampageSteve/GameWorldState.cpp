@@ -215,6 +215,11 @@ bool GameWorldState::update(const float& dt)
     for (auto &a : this->_gameEntities)
     {
        
+        if (a->checkIfContainsComponent<ProjectileComponent>())
+        {
+            printf ("Object contains projectile : %p : %f, %f \n", a,a->getPosition().x, a->getPosition().y);
+        }
+        
         // bugged call
         if (!a->runActionsUpdate(dt)) {printf ("Failed to update entity\n");}
         
@@ -321,15 +326,7 @@ GameWorldState::~GameWorldState()
         this->_gameEntities.clear();
         //delete this->GameEntities;
     }
-    if (!this->_projectiles.empty())
-    {
-        for (auto &a : this->_projectiles)
-        {
-            delete a;
-        }
-        this->_projectiles.clear();
-        //delete this->GameEntities;
-    }
+   
     if (!this->gameResources.empty())
     {
         for (auto&gr : this->gameResources)

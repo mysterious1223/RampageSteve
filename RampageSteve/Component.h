@@ -9,6 +9,7 @@ class Component
 {
 public:
 	// take in component type
+    // need to change all the *& back to * maybe a cause of our issues? Projectile not moving
     Component(Entity*& entity) {thisEntity = entity;};
 
     // When component is added to an entity this is automatically called
@@ -20,8 +21,10 @@ public:
 
     virtual void updateRender(sf::RenderTarget* target) = 0;
 
+    bool changeOwnership (Entity*& entity) {thisEntity = entity;}
     
-    virtual ~Component(){printf ("Parent of Component destroyed\n");};
+    
+    virtual ~Component() = default;
 
 protected:
 
