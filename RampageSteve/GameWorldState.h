@@ -30,6 +30,9 @@ public:
     [[nodiscard]]
 	bool update(const float&);
 
+    
+    //[[nodiscard]]
+    //bool update_background();
 
 	//Render loop
     [[nodiscard]]
@@ -46,7 +49,11 @@ private:
 	//std::vector<ConfigurationData*> gameResources;
 
     std::vector <Entity*> _gameEntities;
+    // temp
     std::vector <Entity*> _projectiles;
+    
+    // instantiated objects
+    std::vector <Entity*> _instantiated_objects;
     
     Entity* background = nullptr;
 	~GameWorldState();

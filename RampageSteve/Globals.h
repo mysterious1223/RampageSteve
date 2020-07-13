@@ -11,6 +11,7 @@
 #include <fstream>
 #include <filesystem>
 #include <cmath>
+#include <thread> 
 #if __APPLE__
 #include <unistd.h>
 #endif

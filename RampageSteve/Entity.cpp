@@ -44,7 +44,7 @@ bool Entity::runActionsUpdate(const float& dt)
     {
         for (auto& c : this->_entity_components)
         {
-          
+            
             c->update(dt);
         }
     }
@@ -145,7 +145,7 @@ void Entity::clearComponents (){
 
 Entity::~Entity()
 {
-    printf ("[-] Destruction called on %p\n", this);
+    printf ("[-] Destruction called on %p, %s\n", this,this->getName().c_str());
     
 	// remove the entity vector
 

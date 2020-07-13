@@ -58,6 +58,9 @@ private:
     std::vector<Entity*> _projectiles;
     std::vector<Entity*> &_entities;
     
+    //test
+    //std::vector<Entity*> _t_entities;
+    
     //const unsigned _MAX_BULLETS_ = 1;
     
     //unsigned _curr_bullets;

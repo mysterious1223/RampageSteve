@@ -5,7 +5,7 @@
 #include "RangedCombatComponent.h"
 
 
-RangedCombatComponent::RangedCombatComponent (Entity*& entity,std::vector<Entity*>& entityList, const bool& isControllable) : Component(entity), _isMouseClicked(false),_entities (entityList),// _curr_bullets (0), _isTimeout(false),
+RangedCombatComponent::RangedCombatComponent (Entity*& entity,std::vector<Entity*>& entityList, const bool& isControllable) : Component(entity), _isMouseClicked(false),_entities (entityList),// _t_entities(std::vector<Entity*>()),// _curr_bullets (0), _isTimeout(false),
 _mouseClickedLocation(sf::Vector2f())
 {
     // member to check if this is a controlled object
@@ -22,6 +22,7 @@ bool RangedCombatComponent::init()
 // create a new projectile object so we can move and place into gameentities
 Entity* RangedCombatComponent::instantiate_Projectile (const sf::Vector2f& toPos){
     
+    printf("starting instantiation\n");
     // copy the top element
     //std::unique_ptr<Entity> ptr (new Entity); We should replace all local pointer with this
     Entity *inst_projectile = new Entity;
@@ -53,7 +54,7 @@ Entity* RangedCombatComponent::instantiate_Projectile (const sf::Vector2f& toPos
     if (!entityProjectile->setTargetPosition(toPos, this->thisEntity->getPosition())) {}
     
     
-
+    printf("ending instantiation\n");
     //this->_curr_bullets ++;
     return inst_projectile;
     
@@ -78,7 +79,11 @@ void RangedCombatComponent::update(const float& dt)
             
             Entity* tempEntity = instantiate_Projectile(this->_mouseClickedLocation);
             
+            //printf ("Adding %p\n", tempEntity);
             this->_entities.push_back(tempEntity);
+            //printf ("done adding %p\n", tempEntity);
+            //this->_t_entities.push_back(tempEntity);
+            
             
             //printf ("size %d\n", this->_entities.size());
             this->_fired = true;
@@ -103,8 +108,15 @@ void RangedCombatComponent::update(const float& dt)
         }
          */
     }
-    
-    
+    /*
+    if (!this->_t_entities.empty())
+    {
+        for (auto& a : this->_t_entities)
+        {
+            a->runActionsUpdate(dt);
+        }
+    }
+     */
     
 }
 void RangedCombatComponent::updateInput (const float& dt, sf::Event* event)
@@ -135,6 +147,16 @@ void RangedCombatComponent::updateInput (const float& dt, sf::Event* event)
 
 void RangedCombatComponent::updateRender(sf::RenderTarget* target)
 {
+    /*
+    if (!this->_t_entities.empty())
+    {
+        for (auto& a : this->_t_entities)
+        {
+            a->DrawThis(target);
+        }
+    }
+     */
+    
 }
 bool RangedCombatComponent::addProjectile (Entity*& entity)
 {

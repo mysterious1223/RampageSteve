@@ -8,12 +8,12 @@
 
 
 
-GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState(res) {
+GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState(res), _gameEntities(std::vector<Entity*>()),
+_projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>()){
 
 	printf("[+] Game World State initialized\n");
 
 
-    this->_gameEntities = std::vector<Entity*>();
 
     
 	// We will prob have a player selection screen. We should create the functionality without implemenation. We can then use this array
@@ -60,7 +60,7 @@ GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState
                 // collider
                 ColliderComponent* collider = new ColliderComponent (player, phybod);
                 // RangedCombat This will need to be added later
-                RangedCombatComponent* ranged = new RangedCombatComponent (player,this->_gameEntities,true);
+                RangedCombatComponent* ranged = new RangedCombatComponent (player,this->_instantiated_objects,true);
                 
                 if (!player->AddComponent(control)) {printf ("Player Error loading controller comp\n");}
                 if (!player->AddComponent(phybod)) {printf ("Player Error loading phy comp\n");}
@@ -176,9 +176,37 @@ bool GameWorldState::init (){
         printf ("No projectiles found...\n");
     }
     
+    // start background on seperate thread?
+    //std::thread background_thread (update_background());
+    
+    //background_thread.join();
+    
+    //std::thread gameplay_thread;
+    
+    
+    
     printf ("[+] init game complete\n");
     return true;
 }
+/*
+bool GameWorldState::update_background()
+{
+    sf::Clock clock;
+    while (true)
+    {
+        sf::Time dt = clock.restart();
+        if (!this->background->runActionsUpdate(dt.asSeconds())) {
+            printf ("Failed to update background\n");
+            break;
+            
+        }
+        
+        
+    }
+    
+    return false;
+}
+*/
 void GameWorldState::cleanDeletedEntities ()
 {
     for (unsigned i = 0; i < this->_gameEntities.size(); i ++)
@@ -203,6 +231,10 @@ bool GameWorldState::update(const float& dt)
     // remove deleted entities
     cleanDeletedEntities ();
     
+    
+    
+
+    
 	//player->runActionsUpdate(dt);
 	//background->runActionsUpdate(dt);
     
@@ -217,11 +249,11 @@ bool GameWorldState::update(const float& dt)
         for (auto &a : this->_gameEntities)
         {
            
-            printf ("error? %p \n", a);
+            //printf ("error? %p \n", a);
             
             // bugged call
             if (!a->runActionsUpdate(dt)) {printf ("Failed to update entity\n");}
-            
+            //printf ("over error? %p \n", a);
             // check if entity contains the collider component
             if (a->checkIfContainsComponent<ColliderComponent>())
             {
@@ -256,7 +288,13 @@ bool GameWorldState::update(const float& dt)
     
     // We will check if has collider then check ? idk
     
-
+    
+    // slow as fuck
+    if (!this->_instantiated_objects.empty())
+    {
+        this->_gameEntities.push_back(this->_instantiated_objects.back());
+        this->_instantiated_objects.pop_back();
+    }
  
 	return true;
 }

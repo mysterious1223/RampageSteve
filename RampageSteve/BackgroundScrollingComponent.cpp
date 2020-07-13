@@ -50,24 +50,29 @@ void BackgroundScrollingComponent::update(const float& dt)
     
     
     
-	this->thisEntity->move(this->speed *dt, 0);
+	this->thisEntity->move(this->speed * dt, 0);
     this->childInstance->move(speed * dt, 0);
     
-    
+    // check distance between both instance
+    float dist = sqrt(
+                      pow(this->childInstance->getPosition().x - this->thisEntity->getPosition().x, 2)
+                          + pow(this->childInstance->getPosition().y - this->thisEntity->getPosition().y, 2)
+                      ) - 1;
   
     
+    printf ("Distance %f\n",dist);
 
 	if (this->thisEntity->getPosition().x <= -this->maxX)
 	{
         
         
-		this->thisEntity->setPosition(this->maxX, 0);
+		this->thisEntity->setPosition(dist, 0);
         //printf ("swapping for parent %f\n", this->thisEntity->getPosition().x);
 	}
     
-    if (this->childInstance->getPosition().x <= -this->maxX)
+    if (this->childInstance->getPosition().x <= - dist)
     {
-        this->childInstance->setPosition(this->maxX, 0);
+        this->childInstance->setPosition(dist, 0);
         //printf ("swapping for child %f\n", this->childInstance->getPosition().x);
     }
     
