@@ -18,6 +18,7 @@ class ColliderComponent : public Component
 {
 public:
 	ColliderComponent(Entity*&, PhysicsBodyComponent*);
+    ColliderComponent (Entity*&);
     [[nodiscard]]
 	bool init();
 

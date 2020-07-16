@@ -4,11 +4,11 @@
 
 #include "Entity.h"
 
-Entity::Entity(ConfigurationData*& cf) : sf::Sprite (cf->getResources()->thisTexture), _isDead(false), _thisConfig (cf), _entity_components(std::vector<Component*>()), _name(cf->getName())
+Entity::Entity(ConfigurationData*& cf) : sf::Sprite (cf->getResources()->thisTexture), _isDead(false), _thisConfig (cf), _entity_components(std::vector<Component*>()), _name(cf->getName()) , _parentEntity (nullptr)
+
 {
-    //this->_name = cf->getName();
-    
-	//this->_entity_components = std::vector <Component*>();
+ 
+
 }
 
 bool Entity::AddComponent(Component* comp)
@@ -49,6 +49,8 @@ bool Entity::runActionsUpdate(const float& dt)
         }
     }
 
+    
+    
 
 	return true;
 }

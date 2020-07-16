@@ -22,13 +22,15 @@ bool RangedCombatComponent::init()
 // create a new projectile object so we can move and place into gameentities
 Entity* RangedCombatComponent::instantiate_Projectile (const sf::Vector2f& toPos){
     
-    printf("starting instantiation\n");
+    //printf("starting instantiation\n");
     // copy the top element
     //std::unique_ptr<Entity> ptr (new Entity); We should replace all local pointer with this
     Entity *inst_projectile = new Entity;
     *inst_projectile = *this->_projectiles [0];
-    
+    inst_projectile->setParentEntity(this->thisEntity);
     inst_projectile->clearComponents();
+    
+   
     
     inst_projectile->setPosition(this->thisEntity->getPosition());
     
@@ -37,9 +39,12 @@ Entity* RangedCombatComponent::instantiate_Projectile (const sf::Vector2f& toPos
     
     // need need projectile to move to position. So we need to retireve the ProectileObject
     ProjectileComponent * entityProjectile = new ProjectileComponent (inst_projectile, 700);
+    //PhysicsBodyComponent* phyComp {new PhysicsBodyComponent(inst_projectile)};
+    ColliderComponent* collComp {new ColliderComponent(inst_projectile)};
+    
     if (!inst_projectile->AddComponent(entityProjectile)) {printf ("Ranged projectile comp failed\n");}
-    
-    
+    //if (!inst_projectile->AddComponent(phyComp)) {printf ("Ranged projectile phy comp failed\n");}
+    if (!inst_projectile->AddComponent(collComp)) {printf ("Ranged projectile phy comp failed\n");}
     // we NEED TO COPY PROJECTILE COMPONENT
     
     //ProjectileComponent* entityProjectile = dynamic_cast<ProjectileComponent*>(inst_projectile->GetComponent<ProjectileComponent>());
@@ -54,7 +59,7 @@ Entity* RangedCombatComponent::instantiate_Projectile (const sf::Vector2f& toPos
     if (!entityProjectile->setTargetPosition(toPos, this->thisEntity->getPosition())) {}
     
     
-    printf("ending instantiation\n");
+    //printf("ending instantiation\n");
     //this->_curr_bullets ++;
     return inst_projectile;
     

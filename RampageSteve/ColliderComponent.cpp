@@ -9,7 +9,9 @@ ColliderComponent::ColliderComponent (Entity*& entity, PhysicsBodyComponent* phy
 {
     //empty for now
 }
-
+ColliderComponent::ColliderComponent (Entity*& entity) : Component(entity){
+    
+}
 
 
 bool ColliderComponent::init()

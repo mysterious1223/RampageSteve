@@ -262,18 +262,34 @@ bool GameWorldState::update(const float& dt)
                 for (auto& entity : this->_gameEntities)
                 {
                     // both must have collider
-                    if (entity->checkIfContainsComponent<ColliderComponent>())
+                    if (entity->checkIfContainsComponent<ColliderComponent>() && (entity->_parentEntity != a &&
+                                                                                  a->_parentEntity != entity))
                     {
-                        if (a != entity && a != NULL)
+                        if (a != entity && a != NULL )
                         {
+                            
                             
                                 // Collision Will ONLY check for bullets tagged items
                                 // there is a bug here that needs to be fixed
                                 if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
                                 {
-                                    printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
+                                    //printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
                                     
-                                    
+                                    // Kill the entity that gets hit?
+                                    if (a->checkIfContainsComponent<ProjectileComponent>())
+                                    {
+                                        // contains bullet
+                                        printf ("Entity %s got hit\n", entity->getName().c_str());
+                                        
+                                        // IMPLEMENT STATS COMPONENT
+                                        
+                                        
+                                        // we can pull the health and deal damage?
+                                        entity->setIsDead();
+                                        
+                                        // destroy bullets no matter what
+                                        a->setIsDead();
+                                    }
                                     
                                 }
                         }

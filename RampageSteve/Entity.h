@@ -27,6 +27,15 @@ enum class EntityType {
 
 };
 
+typedef struct {
+    unsigned int _health;
+    unsigned int _attackDmg;
+    
+    
+    // other things can be kept
+    
+} Entity_stats;
+
 class Entity : public sf::Sprite
 {
 public:
@@ -108,6 +117,10 @@ public:
     
     void setIsDead () {this->_isDead = true;}
     
+    void setParentEntity (Entity*& entity) {this->_parentEntity = entity;};
+    
+    
+    
 private:
 
 	std::vector <Component*> _entity_components;
@@ -124,6 +137,12 @@ private:
     
     // is dead
     bool _isDead;
+    
+    // parent Entity
+    Entity* _parentEntity;
+    
+    
+   
     
     //sf::RectangleShape borderRect;
     friend class GameWorldState;

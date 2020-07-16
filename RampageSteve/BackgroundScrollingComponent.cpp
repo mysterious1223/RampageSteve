@@ -60,7 +60,7 @@ void BackgroundScrollingComponent::update(const float& dt)
                       ) - 1;
   
     
-    printf ("Distance %f\n",dist);
+    //printf ("Distance %f\n",dist);
 
 	if (this->thisEntity->getPosition().x <= -this->maxX)
 	{
