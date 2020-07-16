@@ -21,7 +21,7 @@ public:
 
     virtual void updateRender(sf::RenderTarget* target) = 0;
 
-    bool changeOwnership (Entity*& entity) {thisEntity = entity;}
+    inline void changeOwnership (Entity*& entity) {thisEntity = entity;}
     
     
     virtual ~Component() = default;

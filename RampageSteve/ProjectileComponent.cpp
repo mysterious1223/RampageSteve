@@ -5,7 +5,7 @@
 #include "ProjectileComponent.h"
 
 
-ProjectileComponent::ProjectileComponent (Entity*& entity,const float& speed) : Component(entity), _targetPos(sf::Vector2f()),_targetDiff(sf::Vector2f()), _initPos (sf::Vector2f()), _isTargetSet (false), _speed(speed), _max_dur(3)
+ProjectileComponent::ProjectileComponent (Entity*& entity,const float& speed) : Component(entity), _targetPos(sf::Vector2f()), _initPos (sf::Vector2f()),_targetDiff(sf::Vector2f()), _isTargetSet (false), _speed(speed), _max_dur(3)
 {
     
 }

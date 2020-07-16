@@ -176,7 +176,7 @@ namespace SFML_GUI {
                 unsigned sizeOfItemArray;
                 unsigned currIncrement = 0;
                 // set the margins for the spacing between each elements
-                unsigned margins = 0;
+                //unsigned margins = 0;
             
                 // current offset
                 unsigned offset = 0;

@@ -33,7 +33,7 @@ _projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>
             {
                 background = new Entity (x);
                 //background->setPosition(1024, 768/2);
-				float i = 0;
+				//float i = 0;
 				BackgroundScrollingComponent* bck = new BackgroundScrollingComponent(background);
 
 				if (!background->AddComponent(bck))

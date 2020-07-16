@@ -63,7 +63,7 @@ private:
 	float dampening = 1;
 
 	// if jump is triggered this should be called
-	bool isJump = false;
+	//bool isJump = false;
 	//sf::Rect borderRect;
 	sf::RectangleShape borderRect;
 

@@ -128,7 +128,7 @@ SFML_GUI::Layout::Layout (const sf::Vector2f &pos) : sf::Transformable (){
     
 }
 
-SFML_GUI::UI_Layouts::MainMenuFlowLayout::MainMenuFlowLayout(const unsigned size, const sf::Vector2f& pos) : Layout(pos), sizeOfItemArray{ size }, menuItemsArray{new GUI_items::MenuItem * [(size_t)size] }
+SFML_GUI::UI_Layouts::MainMenuFlowLayout::MainMenuFlowLayout(const unsigned size, const sf::Vector2f& pos) : Layout(pos), menuItemsArray{new GUI_items::MenuItem * [(size_t)size] }, sizeOfItemArray{ size }
 {
     
     

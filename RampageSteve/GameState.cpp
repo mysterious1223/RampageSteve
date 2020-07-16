@@ -6,7 +6,7 @@
 
 
 
-GameState::GameState(std::vector<ConfigurationData*>& res) : gameResources{ res } , isEnd{false}
+GameState::GameState(std::vector<ConfigurationData*>& res) :  isEnd{false}, gameResources{ res }
 {
 
 	

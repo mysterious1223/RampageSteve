@@ -4,7 +4,7 @@
 
 #include "Entity.h"
 
-Entity::Entity(ConfigurationData*& cf) : sf::Sprite (cf->getResources()->thisTexture), _isDead(false), _thisConfig (cf), _entity_components(std::vector<Component*>()), _name(cf->getName()) , _parentEntity (nullptr)
+Entity::Entity(ConfigurationData*& cf) : sf::Sprite (cf->getResources()->thisTexture), _entity_components(std::vector<Component*>()), _name(cf->getName()),_thisConfig (cf),_isDead(false) , _parentEntity (nullptr)
 
 {
  
