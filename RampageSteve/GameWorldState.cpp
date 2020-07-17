@@ -62,11 +62,21 @@ _projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>
                 // RangedCombat This will need to be added later
                 RangedCombatComponent* ranged = new RangedCombatComponent (player,this->_instantiated_objects,true);
                 
+                // entity stats
+                EntityStatsComponent* stats = new EntityStatsComponent (player);
+                Stats_Container _stats_;
+                
+                _stats_._attack_dmg = 1;
+                _stats_._health = 5;
+                
+                stats->setBaseStats(_stats_);
+                
+                
                 if (!player->AddComponent(control)) {printf ("Player Error loading controller comp\n");}
                 if (!player->AddComponent(phybod)) {printf ("Player Error loading phy comp\n");}
                 if (!player->AddComponent(collider)) {printf ("Player Error loading coll comp\n");}
                 if (!player->AddComponent(ranged)) {printf ("Player Error loading range comp\n");}
-		
+                if (!player->AddComponent(stats)) {printf ("Player Error loading stats comp\n");}
             
                 // check if object contains a component
                 //player->checkIfContainsComponent<ColliderComponent>();
@@ -86,10 +96,20 @@ _projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>
                 PhysicsBodyComponent* phybod = new PhysicsBodyComponent(enemy);
                 ColliderComponent* collider = new ColliderComponent (enemy, phybod);
                 
+                // entity stats
+                EntityStatsComponent* stats = new EntityStatsComponent (enemy);
+                Stats_Container _stats_;
+                
+                _stats_._attack_dmg = 1;
+                _stats_._health = 7;
+                
+                
+                stats->setBaseStats(_stats_);
                 
                 
                 if (!enemy->AddComponent(phybod)) {printf ("enemy Error loading phy comp\n");}
                 if (!enemy->AddComponent(collider)) {printf ("enemy Error loading coll comp\n");}
+                if (!enemy->AddComponent(stats)) {printf ("Player Error loading stats comp\n");}
                 
                 this->_gameEntities.push_back(enemy);
             }
@@ -283,12 +303,24 @@ bool GameWorldState::update(const float& dt)
                                         
                                         // IMPLEMENT STATS COMPONENT
                                         
+                                        //a->_parentEntity->GetComponent<EntityStatsComponent>()
+                                        if (entity->checkIfContainsComponent<EntityStatsComponent>())
+                                        {
+                                            
+                                            EntityStatsComponent* thisstats = static_cast<EntityStatsComponent*>
+                                            (a->_parentEntity->GetComponent<EntityStatsComponent>());//->attackEntity(entity);
+                                            
+                                            thisstats->attackEntity(entity);
+                                            
+                                            
+                                            a->setIsDead();
+                                        }
                                         
                                         // we can pull the health and deal damage?
-                                        entity->setIsDead();
+                                        //entity->setIsDead();
                                         
                                         // destroy bullets no matter what
-                                        a->setIsDead();
+                                        
                                     }
                                     
                                 }

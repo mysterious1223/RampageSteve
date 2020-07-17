@@ -46,6 +46,7 @@
 #include "ColliderComponent.h"
 #include "RangedCombatComponent.h"
 #include "ProjectileComponent.h"
+#include "EntityStatsComponent.h"
 #endif //  _COMPONENT_H_
 
 

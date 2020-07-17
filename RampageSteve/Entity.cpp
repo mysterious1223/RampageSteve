@@ -8,12 +8,14 @@ Entity::Entity(ConfigurationData*& cf) : sf::Sprite (cf->getResources()->thisTex
 
 {
  
+    
 
 }
 
 bool Entity::AddComponent(Component* comp)
 {
 
+    
 	if (comp->init())
 	{
 		this->_entity_components.push_back(comp);

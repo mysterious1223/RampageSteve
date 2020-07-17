@@ -5,8 +5,8 @@
 #include "RangedCombatComponent.h"
 
 
-RangedCombatComponent::RangedCombatComponent (Entity*& entity,std::vector<Entity*>& entityList, const bool& isControllable) : Component(entity),_isMouseClicked(false),// _t_entities(std::vector<Entity*>()),// _curr_bullets (0), _isTimeout(false),
-_mouseClickedLocation(sf::Vector2f()),_entities (entityList)
+RangedCombatComponent::RangedCombatComponent (Entity*& entity,std::vector<Entity*>& entityList, const bool& isControllable) : Component(entity),//
+_mouseClickedLocation(sf::Vector2f()),_isMouseClicked(false),_entities (entityList)
 {
     // member to check if this is a controlled object
     this->_isControllable = isControllable;
