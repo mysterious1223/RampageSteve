@@ -47,6 +47,7 @@
 #include "RangedCombatComponent.h"
 #include "ProjectileComponent.h"
 #include "EntityStatsComponent.h"
+#include "SimpleAIComponent.h"
 #endif //  _COMPONENT_H_
 
 
