@@ -4,7 +4,7 @@
 
 #include "PhysicsBodyComponent.h"
 
-PhysicsBodyComponent::PhysicsBodyComponent(Entity*& entity) : Component (entity)
+PhysicsBodyComponent::PhysicsBodyComponent(Entity*& entity) : Component (entity), _isGravityEnabled (true)
 {
     //we need to add a collider component
 }
@@ -34,35 +34,41 @@ void PhysicsBodyComponent::update(const float& dt)
 {
 
 	//this->ApplyForceToHorizontalVelocity(-1);
+    // debug
+    borderRect.setPosition(this->thisEntity->getPosition());
+    sf::Vector2f EntityPosition = this->thisEntity->getPosition();
+    // physics calculation and updates
 
 
-	// debug
-	borderRect.setPosition(this->thisEntity->getPosition());
+    // return false if cant
+    
+
+        
 
 
-	
-	sf::Vector2f EntityPosition = this->thisEntity->getPosition();
-	// physics calculation and updates
-
-
-	// return false if cant
-	applyGravity(dt);
-
-	EntityPosition.y -= this->vertical_velocity * dt;
-	EntityPosition.x += this->horizontal_velocity * dt;
+  
+    applyGravity(dt);
+    
+    EntityPosition.y -= this->vertical_velocity * dt;
+    EntityPosition.x += this->horizontal_velocity * dt;
 
 
 
 
-	// must be at end
-	// check DEBUG TEST WE WILL USE PHYSICS for this later
-	if (EntityPosition.y >= groundY)
-	{
-		this->isGrounded = true;
-	}
-		
-	
-	this->thisEntity->setPosition(EntityPosition);
+        // must be at end
+        // check DEBUG TEST WE WILL USE PHYSICS for this later
+    
+    if (EntityPosition.y >= groundY)
+    {
+        this->isGrounded = true;
+    }
+            
+        
+        
+        
+    
+    
+    this->thisEntity->setPosition(EntityPosition);
 }
 
 void PhysicsBodyComponent::updateInput(const float& dt, sf::Event*)

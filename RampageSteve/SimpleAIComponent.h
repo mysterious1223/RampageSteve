@@ -20,10 +20,11 @@
 
 
 class Component;
+class ColliderComponent;
 class SimpleAIComponent : public Component
 {
 public:
-	SimpleAIComponent(Entity*&);
+	SimpleAIComponent(Entity*&, ColliderComponent*&);
     //SimpleAIComponent (Entity*&);
     [[nodiscard]]
 	bool init();
@@ -38,7 +39,7 @@ public:
     
     // Move to current target
     [[nodiscard]]
-    bool moveToTarget ();
+    bool moveToTarget (const float &);
     
     
     // move to specific position
@@ -49,10 +50,10 @@ public:
     bool moveToPos (const sf::Vector2f&);
     
     
-    
+    // This probably should be called only when player enters perimeter?
     // set target IF one is not currently set
     [[nodiscard]]
-    bool setTarget (const Entity&);
+    bool setTarget (Entity*&);
     
     
     // set sphere of influence
@@ -69,7 +70,8 @@ private:
     
     
     // Maybe swap for a unique pointer?
-    Entity &_target;
+    Entity *_target;
+    ColliderComponent* _coll;
 };
 
 

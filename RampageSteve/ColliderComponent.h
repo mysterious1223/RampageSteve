@@ -27,10 +27,21 @@ public:
 	void updateInput(const float& dt, sf::Event*);
 
 	void updateRender(sf::RenderTarget* target);
+    
+    
+    // how should we structure the collision handling, we need this for the AI component
+    // trigger a call back with (Entity A, Enttity B)
+    // How can we implement this?
+    inline void Iscollide (Entity * entity, const bool& isCollide) {this->_isCollided = isCollide; this->_t_entity = entity;};
 
+    
 	~ColliderComponent();
 private:
 
+    bool _isCollided;
+    Entity* _t_entity;
+    
+    friend class SimpleAIComponent;
 };
 
 

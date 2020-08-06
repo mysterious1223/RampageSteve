@@ -58,8 +58,11 @@ private:
     Entity* background = nullptr;
 	~GameWorldState();
     
+    Entity* _player;
+    
+    
     // sweep for deleted objects
-    void cleanDeletedEntities ();
+    bool cleanDeletedEntities ();
 };
 
 #endif //// GAMEWORLDSTATE_H

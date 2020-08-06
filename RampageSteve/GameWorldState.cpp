@@ -9,7 +9,7 @@
 
 
 GameWorldState::GameWorldState(std::vector<ConfigurationData*> &res) : GameState(res), _gameEntities(std::vector<Entity*>()),
-_projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>()){
+_projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>()), _player(nullptr){
 
 	printf("[+] Game World State initialized\n");
 
@@ -67,7 +67,8 @@ _projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>
                 Stats_Container _stats_;
                 
                 _stats_._attack_dmg = 1;
-                _stats_._health = 5;
+                // Player dies in one hit, we need to implement a time out for enemy attacks
+                _stats_._health = 1;
                 
                 stats->setBaseStats(_stats_);
                 
@@ -81,7 +82,7 @@ _projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>
                 // check if object contains a component
                 //player->checkIfContainsComponent<ColliderComponent>();
                 
-              
+                this->_player = player;
                 
                 
                 this->_gameEntities.push_back(player);
@@ -98,18 +99,21 @@ _projectiles(std::vector<Entity*>()), _instantiated_objects(std::vector<Entity*>
                 
                 // entity stats
                 EntityStatsComponent* stats = new EntityStatsComponent (enemy);
+                SimpleAIComponent* ai = new SimpleAIComponent (enemy, collider);
                 Stats_Container _stats_;
                 
                 _stats_._attack_dmg = 1;
                 _stats_._health = 7;
                 
-                
+                //phybod->gravityEnabled(false);
                 stats->setBaseStats(_stats_);
                 
                 
                 if (!enemy->AddComponent(phybod)) {printf ("enemy Error loading phy comp\n");}
                 if (!enemy->AddComponent(collider)) {printf ("enemy Error loading coll comp\n");}
-                if (!enemy->AddComponent(stats)) {printf ("Player Error loading stats comp\n");}
+                if (!enemy->AddComponent(stats)) {printf ("enemy Error loading stats comp\n");}
+                if (!enemy->AddComponent(ai)) {printf ("enemy Error loading AI comp\n");}
+                
                 
                 this->_gameEntities.push_back(enemy);
             }
@@ -196,6 +200,30 @@ bool GameWorldState::init (){
         printf ("No projectiles found...\n");
     }
     
+    // Point enemy to player
+    for (auto& obj : this->_gameEntities)
+    {
+        if (obj->_thisConfig->getEntityType() == EntityType::Enemy)
+        {
+            SimpleAIComponent * ai_comp = static_cast<SimpleAIComponent*>(obj->GetComponent<SimpleAIComponent>());
+            
+            if (ai_comp != nullptr)
+            {
+                bool isOK = ai_comp->setTarget(this->_player);
+                if (!isOK)
+                {
+                    printf ("AI targetting failed!\n");
+                }
+            }
+            else
+            {
+                printf ("Entity does not have an Simple AI\n");
+            }
+        }
+    }
+    
+    
+    
     // start background on seperate thread?
     //std::thread background_thread (update_background());
     
@@ -227,20 +255,35 @@ bool GameWorldState::update_background()
     return false;
 }
 */
-void GameWorldState::cleanDeletedEntities ()
+bool GameWorldState::cleanDeletedEntities ()
 {
+    
+    bool isPlayerDead = false;
+    
     for (unsigned i = 0; i < this->_gameEntities.size(); i ++)
     {
         if (this->_gameEntities [i]->isEntityDeleted())
         {
+            
+            if (this->_gameEntities [i]->_thisConfig->getEntityType() == EntityType::Player)
+            {
+                isPlayerDead = true;
+            }
+            
             Entity *t_ptr = this->_gameEntities[i];
             
             this->_gameEntities.erase(this->_gameEntities.begin() + i);
             
             delete t_ptr;
+            
+            
         }
     }
     
+    
+
+    
+    return isPlayerDead;
 }
 
 bool GameWorldState::update(const float& dt)
@@ -249,7 +292,11 @@ bool GameWorldState::update(const float& dt)
     //printf ("%d\n", this->_gameEntities.size());
 
     // remove deleted entities
-    cleanDeletedEntities ();
+    if (cleanDeletedEntities ())
+    {
+        // player is dead
+        this->isEnd = true;
+    }
     
     
     
@@ -293,6 +340,10 @@ bool GameWorldState::update(const float& dt)
                                 // there is a bug here that needs to be fixed
                                 if (a->getGlobalBounds().intersects(entity->getGlobalBounds()))
                                 {
+                                    
+                                    
+                                    static_cast<ColliderComponent*> ( a->GetComponent<ColliderComponent>() )->Iscollide(entity, true);
+                                    
                                     //printf ("Collision detected %s <-> %s\n", a->getName().c_str(), entity->getName().c_str());
                                     
                                     // Kill the entity that gets hit?
@@ -322,6 +373,12 @@ bool GameWorldState::update(const float& dt)
                                         // destroy bullets no matter what
                                         
                                     }
+                                    
+                                }
+                                else
+                                {
+                                    // reset
+                                    static_cast<ColliderComponent*> ( a->GetComponent<ColliderComponent>() )->Iscollide(nullptr, false);
                                     
                                 }
                         }

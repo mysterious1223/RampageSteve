@@ -20,7 +20,9 @@ public:
 
 	void updateRender(sf::RenderTarget* target);
 
-
+    [[deprecated]]
+    void gravityEnabled (const bool& grv) {this->_isGravityEnabled = grv;};
+    
 	// triggers
     [[nodiscard]]
 	bool triggerJump();
@@ -60,6 +62,8 @@ private:
 	float mass = 75;
 	const float gravity_rate = 9.80f;
 	
+    bool _isGravityEnabled;
+    
 	float dampening = 1;
 
 	// if jump is triggered this should be called
