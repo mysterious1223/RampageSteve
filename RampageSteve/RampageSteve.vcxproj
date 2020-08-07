@@ -158,12 +158,18 @@
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityStatsComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameMainMenuState.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameWorldState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicsBodyComponent.cpp" />
+    <ClCompile Include="ProjectileComponent.cpp" />
+    <ClCompile Include="RangedCombatComponent.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
+    <ClCompile Include="sfml_gui.cpp" />
+    <ClCompile Include="SimpleAIComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundScrollingComponent.h" />
@@ -171,12 +177,18 @@
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityStatsComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMainMenuState.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameWorldState.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="PhysicsBodyComponent.h" />
+    <ClInclude Include="ProjectileComponent.h" />
+    <ClInclude Include="RangedCombatComponent.h" />
     <ClInclude Include="ResourceLoader.h" />
+    <ClInclude Include="sfml_gui.h" />
+    <ClInclude Include="SimpleAIComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
